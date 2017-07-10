@@ -19,6 +19,7 @@ import ru.runa.wfe.var.format.DateTimeFormat;
 import ru.runa.wfe.var.format.DoubleFormat;
 import ru.runa.wfe.var.format.ExecutorFormat;
 import ru.runa.wfe.var.format.FileFormat;
+import ru.runa.wfe.var.format.FormattedTextFormat;
 import ru.runa.wfe.var.format.HiddenFormat;
 import ru.runa.wfe.var.format.ListFormat;
 import ru.runa.wfe.var.format.LongFormat;
@@ -100,7 +101,7 @@ public class LoadVariableOfType implements VariableFormatVisitor<Object, LoadVar
         List<Object> list = Lists.newArrayList();
         String sizeVariableName = context.variableDefinition.getName() + VariableFormatContainer.SIZE_SUFFIX;
         VariableDefinition sizeDefinition = new VariableDefinition(sizeVariableName, null, LongFormat.class.getName(), null);
-        Number size = (Number) sizeDefinition.getFormatNotNull().processBy(this, context.сreateFor(sizeDefinition));
+        Number size = (Number) sizeDefinition.getFormatNotNull().processBy(this, context.createFor(sizeDefinition));
         if (size == null && SystemProperties.isV4ListVariableCompatibilityMode()) {
             Variable<?> variable = context.variableLoader.get(context.process, context.variableDefinition.getName());
             if (variable != null) {
@@ -116,7 +117,7 @@ public class LoadVariableOfType implements VariableFormatVisitor<Object, LoadVar
             String componentName = context.variableDefinition.getName() + VariableFormatContainer.COMPONENT_QUALIFIER_START + i
                     + VariableFormatContainer.COMPONENT_QUALIFIER_END;
             VariableDefinition componentDefinition = new VariableDefinition(componentName, null, componentFormat, componentUserType);
-            Object componentValue = componentDefinition.getFormatNotNull().processBy(this, context.сreateFor(componentDefinition));
+            Object componentValue = componentDefinition.getFormatNotNull().processBy(this, context.createFor(componentDefinition));
             list.add(componentValue);
         }
         return list;
@@ -150,13 +151,18 @@ public class LoadVariableOfType implements VariableFormatVisitor<Object, LoadVar
     }
 
     @Override
+    public Object onFormattedTextString(FormattedTextFormat textFormat, LoadVariableOfTypeContext context) {
+        return loadSimpleVariable(textFormat, context);
+    }
+
+    @Override
     public Object onUserType(UserTypeFormat userTypeFormat, LoadVariableOfTypeContext context) {
         VariableDefinition variableDefinition = context.variableDefinition;
         UserTypeMap userTypeMap = new UserTypeMap(variableDefinition);
         for (VariableDefinition attributeDefinition : variableDefinition.getUserType().getAttributes()) {
             String fullName = variableDefinition.getName() + UserType.DELIM + attributeDefinition.getName();
             VariableDefinition definition = new VariableDefinition(fullName, null, attributeDefinition);
-            Object value = definition.getFormatNotNull().processBy(this, context.сreateFor(definition));
+            Object value = definition.getFormatNotNull().processBy(this, context.createFor(definition));
             userTypeMap.put(attributeDefinition.getName(), value);
         }
         if (userTypeMap.isEmpty()) {

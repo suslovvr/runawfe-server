@@ -92,6 +92,7 @@ public class Token implements Serializable {
     private ExecutionStatus executionStatus = ExecutionStatus.ACTIVE;
     private Date errorDate;
     private String errorMessage;
+    private String messageSelector;
 
     public Token() {
     }
@@ -276,11 +277,25 @@ public class Token implements Serializable {
         this.errorMessage = errorMessage;
     }
 
-    public void fail(Throwable throwable) {
+    @Column(name = "MESSAGE_SELECTOR", length = 1024)
+    @Index(name = "IX_MESSAGE_SELECTOR")
+    public String getMessageSelector() {
+        return messageSelector;
+    }
+
+    public void setMessageSelector(String messageSelector) {
+        this.messageSelector = messageSelector;
+    }
+
+    public boolean fail(Throwable throwable) {
+        boolean stateChanged = getExecutionStatus() != ExecutionStatus.FAILED;
         setExecutionStatus(ExecutionStatus.FAILED);
         setErrorDate(new Date());
         // safe for unicode
-        setErrorMessage(Utils.getCuttedString(throwable.toString(), 1024 / 2));
+        String errorMessage = Utils.getCuttedString(throwable.toString(), 1024 / 2);
+        stateChanged |= !Objects.equal(errorMessage, getErrorMessage());
+        setErrorMessage(errorMessage);
+        return stateChanged;
     }
 
     public Node getNodeNotNull(ProcessDefinition processDefinition) {
