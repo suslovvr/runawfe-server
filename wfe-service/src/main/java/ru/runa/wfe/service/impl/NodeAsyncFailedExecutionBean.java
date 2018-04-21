@@ -10,12 +10,13 @@ import javax.interceptor.Interceptors;
 import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.ObjectMessage;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ejb.interceptor.SpringBeanAutowiringInterceptor;
-
 import ru.runa.wfe.commons.Utils;
+import ru.runa.wfe.execution.Token;
+import ru.runa.wfe.execution.dao.TokenDAO;
 import ru.runa.wfe.service.interceptors.EjbExceptionSupport;
 import ru.runa.wfe.service.interceptors.PerformanceObserver;
 
@@ -28,6 +29,8 @@ public class NodeAsyncFailedExecutionBean implements MessageListener {
     private static final Log log = LogFactory.getLog(NodeAsyncFailedExecutionBean.class);
     @Resource
     private MessageDrivenContext context;
+    @Autowired
+    private TokenDAO tokenDAO;
 
     @Override
     public void onMessage(Message jmsMessage) {
@@ -38,7 +41,16 @@ public class NodeAsyncFailedExecutionBean implements MessageListener {
             if (errorMessage == null) {
                 errorMessage = "DLQ";
             }
-            Utils.failProcessExecution(tokenId, errorMessage);
+            Token token = tokenDAO.get(tokenId);
+            if (token == null) {
+                log.info("Seems like process for tokenId = " + tokenId + " is removed");
+                return;
+            }
+            if (token.getProcess().hasEnded()) {
+                log.info("Ignored message for ended process, tokenId = " + tokenId);
+                return;
+            }
+            Utils.failProcessExecution(token, errorMessage);
         } catch (Exception e) {
             log.error(jmsMessage, e);
             context.setRollbackOnly();

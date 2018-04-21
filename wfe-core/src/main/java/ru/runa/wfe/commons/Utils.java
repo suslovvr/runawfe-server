@@ -406,11 +406,6 @@ public class Utils {
         return string1.trim().equals(string2.trim());
     }
 
-    public static void failProcessExecution(Long tokenId, String errorMessage) {
-        Token token = ApplicationContextFactory.getTokenDAO().getNotNull(tokenId);
-        failProcessExecution(token, errorMessage);
-    }
-
     public static void failProcessExecution(Token token, String errorMessage) {
         boolean stateChanged = token.fail(errorMessage);
         if (stateChanged) {
