@@ -17,21 +17,18 @@
  */
 package ru.runa.wfe.user.cache;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-
 import org.apache.commons.lang.SerializationUtils;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
-
-import org.hibernate.criterion.Projections;
 import ru.runa.wfe.commons.ApplicationContextFactory;
-import ru.runa.wfe.commons.SystemProperties;
 import ru.runa.wfe.commons.cache.BaseCacheImpl;
 import ru.runa.wfe.commons.cache.Cache;
 import ru.runa.wfe.commons.cache.CacheImplementation;
@@ -89,7 +86,6 @@ class ExecutorCacheImpl extends BaseCacheImpl implements ManageableExecutorCache
         if (!context.isInitializationStillRequired()) {
             return;
         }
-        List<ExecutorGroupMembership> memberships = getAllMemberships();
         if (!context.isInitializationStillRequired()) {
             return;
         }
@@ -99,7 +95,7 @@ class ExecutorCacheImpl extends BaseCacheImpl implements ManageableExecutorCache
                 return;
             }
         }
-        fillGroupMembersCaches(context, memberships, allExecutors);
+        fillGroupMembersCaches(context, allExecutors);
     }
 
     @Override
@@ -236,36 +232,37 @@ class ExecutorCacheImpl extends BaseCacheImpl implements ManageableExecutorCache
         }
     }
 
-    private <Key extends Serializable, ValueInSet> Set<ValueInSet> getCollectionFromMap(Cache<Key, HashSet<ValueInSet>> map, Key key) {
-        HashSet<ValueInSet> retVal = map.get(key);
-        if (retVal == null) {
-            retVal = new HashSet<ValueInSet>();
-            map.put(key, retVal);
-        }
-        return retVal;
-    }
-
-    private void fillGroupMembersCaches(CacheInitializationProcessContext context, List<ExecutorGroupMembership> memberships,
-            List<Executor> executors) {
-        for (ExecutorGroupMembership membership : memberships) {
-            getCollectionFromMap(groupToMembersCache, membership.getGroup().getId()).add(membership.getExecutor());
-            getCollectionFromMap(executorToParentGroupsCache, membership.getExecutor().getId()).add(membership.getGroup());
-            if (!context.isInitializationStillRequired()) {
-                return;
-            }
-        }
+    private void fillGroupMembersCaches(CacheInitializationProcessContext context, List<Executor> executors) {
+        Map<Long, Executor> executorsMap = new HashMap<>();
         for (Executor executor : executors) {
-            if (executorToParentGroupsCache.get(executor.getId()) == null) {
-                executorToParentGroupsCache.put(executor.getId(), new HashSet<Group>());
-            }
-            if (executor instanceof Group && groupToMembersCache.get(executor.getId()) == null) {
+            executorToParentGroupsCache.put(executor.getId(), new HashSet<Group>());
+            if (executor instanceof Group) {
                 groupToMembersCache.put(executor.getId(), new HashSet<Executor>());
             }
+            executorsMap.put(executor.getId(), executor);
             if (!context.isInitializationStillRequired()) {
                 return;
             }
         }
-
+        Session session = ApplicationContextFactory.getCurrentSession();
+        List<Object[]> rows = session.createSQLQuery("SELECT GROUP_ID, EXECUTOR_ID FROM EXECUTOR_GROUP_MEMBER").list();
+        for (Object[] row : rows) {
+            Long groupId = ((Number) row[0]).longValue();
+            Long executorId = ((Number) row[1]).longValue();
+            if (!executorsMap.containsKey(groupId)) {
+                log.warn("No executor found by groupId = " + groupId);
+                continue;
+            }
+            if (!executorsMap.containsKey(executorId)) {
+                log.warn("No executor found by executorId = " + executorId);
+                continue;
+            }
+            groupToMembersCache.get(groupId).add(executorsMap.get(executorId));
+            executorToParentGroupsCache.get(executorId).add((Group) executorsMap.get(groupId));
+            if (!context.isInitializationStillRequired()) {
+                return;
+            }
+        }
         for (Executor executor : executors) {
             fillAllParentsCache(executorToAllParentGroupsCache, nameToExecutorCache.get(executor.getName()), executorToParentGroupsCache);
             if (executor instanceof Group) {
@@ -312,29 +309,10 @@ class ExecutorCacheImpl extends BaseCacheImpl implements ManageableExecutorCache
         return actorMembers;
     }
 
-    private <T> List<T> getAll(Class<?> clazz) {
-        Session session = ApplicationContextFactory.getCurrentSession();
-        Criteria countCriteria = session.createCriteria(clazz);
-        countCriteria.setProjection(Projections.rowCount());
-        int count = ((Number) countCriteria.uniqueResult()).intValue();
-        int pageSize = SystemProperties.getDatabasePageSize();
-        List<T> out = new ArrayList<>();
-        for (int i = 0; i < count; i += pageSize) {
-            Criteria criteria = session.createCriteria(clazz);
-            criteria.setFirstResult(i);
-            criteria.setMaxResults(pageSize);
-            out.addAll(criteria.list());
-        }
-        return out;
-    }
-
-
-    private List<ExecutorGroupMembership> getAllMemberships() {
-        return getAll(ExecutorGroupMembership.class);
-    }
-
     private List<Executor> getAllExecutors() {
-        return getAll(Executor.class);
+        Session session = ApplicationContextFactory.getCurrentSession();
+        Criteria criteria = session.createCriteria(Executor.class);
+        return criteria.list();
     }
 
     private static class BatchPresentationFieldEquals {
