@@ -57,6 +57,7 @@ public class NodeAsyncExecutionBean implements MessageListener {
         String nodeId;
         try {
             ObjectMessage message = (ObjectMessage) jmsMessage;
+            log.debug("On message " + message.getJMSMessageID());
             processId = message.getLongProperty("processId");
             tokenId = message.getLongProperty("tokenId");
             nodeId = message.getStringProperty("nodeId");

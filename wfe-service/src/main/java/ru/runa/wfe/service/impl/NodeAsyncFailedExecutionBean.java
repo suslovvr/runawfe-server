@@ -36,6 +36,7 @@ public class NodeAsyncFailedExecutionBean implements MessageListener {
     public void onMessage(Message jmsMessage) {
         try {
             ObjectMessage message = (ObjectMessage) jmsMessage;
+            log.debug("On message " + message.getJMSMessageID());
             Long tokenId = message.getLongProperty("tokenId");
             String errorMessage = message.getStringProperty("errorMessage");
             if (errorMessage == null) {
