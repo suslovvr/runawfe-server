@@ -15,15 +15,15 @@ import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTcPr;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.STMerge;
 import ru.runa.wfe.office.OfficeProperties;
-import ru.runa.wfe.var.IVariableProvider;
 import ru.runa.wfe.var.MapDelegableVariableProvider;
+import ru.runa.wfe.var.VariableProvider;
 
 public class DocxFileChanger {
     private final DocxConfig config;
     private final MapDelegableVariableProvider variableProvider;
     private final XWPFDocument document;
 
-    public DocxFileChanger(DocxConfig config, IVariableProvider variableProvider, InputStream templateInputStream) throws IOException {
+    public DocxFileChanger(DocxConfig config, VariableProvider variableProvider, InputStream templateInputStream) throws IOException {
         this.config = config;
         this.variableProvider = new MapDelegableVariableProvider(new HashMap<String, Object>(), variableProvider);
         this.document = new XWPFDocument(templateInputStream);
@@ -54,13 +54,13 @@ public class DocxFileChanger {
                                 new ColumnExpansionOperation());
                         if (operation != null && operation.isValid()) {
                             tableExpansionOperation.addOperation(columnIndex, operation);
-                            String text0 = tableExpansionOperation.getStringValue(config, variableProvider, columnIndex, 0);
-                            DocxUtils.setCellText(cell, text0);
                         } else {
                             operation = new ColumnSetValueOperation();
                             operation.setContainerValue(cell.getText());
                             tableExpansionOperation.addOperation(columnIndex, operation);
                         }
+                        String text0 = tableExpansionOperation.getStringValue(config, variableProvider, columnIndex, 0);
+                        DocxUtils.setCellText(cell, text0);
                     }
                     if (tableExpansionOperation.getRows() == 0) {
                         for (XWPFTableCell cell : cells) {

@@ -155,7 +155,7 @@ public interface TaskService {
     public void delegateTasks(User user, Set<Long> taskIds, boolean keepCurrentOwners, List<? extends Executor> newOwners);
 
     /**
-     * temporary method for #2151
+     * Gets tasks with executor == NULL
      */
     public List<WfTask> getUnassignedTasks(User user);
 
