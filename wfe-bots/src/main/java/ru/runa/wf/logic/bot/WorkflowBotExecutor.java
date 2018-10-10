@@ -133,6 +133,7 @@ public class WorkflowBotExecutor {
         }
 
         List<WfTask> currentTasks = Delegates.getTaskService().getMyTasks(user, BatchPresentationFactory.TASKS.createNonPaged());
+        log.debug("bot tasks: " + currentTasks);
         if (bot.isTransactional()) {
             if (isEmbeddedSubprocessEndedToWhichBotIsBound()) {
                 log.debug("Unbinding bot from " + bot.getBoundProcessId() + ":" + bot.getBoundSubprocessId());
