@@ -60,7 +60,7 @@ public class Utils {
     private static Queue emailQueue;
     private static Queue nodeAsyncExecutionQueue;
     private static final String MESSAGE_SELECTOR_DELIMITER = ",";
-    private static final String MESSAGE_SELECTOR_VALUE_DELIMITER = "=";
+    public static final String MESSAGE_SELECTOR_VALUE_DELIMITER = "=";
 
     private static InitialContext getInitialContext() throws NamingException {
         if (initialContext == null) {
