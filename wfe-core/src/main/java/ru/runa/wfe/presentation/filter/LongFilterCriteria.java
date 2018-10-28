@@ -37,13 +37,7 @@ public class LongFilterCriteria extends FilterCriteria {
     protected void validate(String[] newTemplates) throws FilterFormatException {
         super.validate(newTemplates);
         try {
-            String[] values = newTemplates[0].split(",");
-            if (values.length == 1) {
-                values = newTemplates[0].split("-");
-            }
-            for (String value : values) {
-                Long.parseLong(value.trim());
-            }
+            Long.parseLong(newTemplates[0]);
         } catch (NumberFormatException nfe) {
             throw new FilterFormatException(nfe.getMessage());
         }
@@ -51,17 +45,11 @@ public class LongFilterCriteria extends FilterCriteria {
 
     @Override
     public String buildWhereCondition(String aliasedFieldName, QueryParametersMap placeholders) {
-        final String template = getFilterTemplate(0);
-        if (template.contains(",")) {
-            return buildInOperator(aliasedFieldName);
-        } else if (template.contains("-")) {
-            return buildBetweenOperator(aliasedFieldName);
-        }
         final String placeHolderName = makePlaceHolderName(aliasedFieldName);
         final StringBuilder sb = new StringBuilder(aliasedFieldName);
         sb.append(" = :").append(placeHolderName);
         sb.append(" ");
-        placeholders.add(placeHolderName, Long.valueOf(template));
+        placeholders.add(placeHolderName, Long.valueOf(getFilterTemplate(0)));
         return sb.toString();
     }
 
