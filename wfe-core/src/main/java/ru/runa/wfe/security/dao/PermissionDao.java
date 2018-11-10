@@ -1,20 +1,3 @@
-/*
- * This file is part of the RUNA WFE project.
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public License
- * as published by the Free Software Foundation; version 2.1
- * of the License.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
- */
 package ru.runa.wfe.security.dao;
 
 import com.google.common.base.Preconditions;
@@ -30,12 +13,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import lombok.NonNull;
+import lombok.val;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
-import ru.runa.wfe.InternalApplicationException;
 import ru.runa.wfe.commons.CollectionUtil;
 import ru.runa.wfe.commons.SystemProperties;
 import ru.runa.wfe.commons.TimeMeasurer;
@@ -50,9 +34,11 @@ import ru.runa.wfe.security.Permission;
 import ru.runa.wfe.security.PermissionSubstitutions;
 import ru.runa.wfe.security.SecuredObject;
 import ru.runa.wfe.security.SecuredObjectType;
+import ru.runa.wfe.security.SecuredObjectUtil;
 import ru.runa.wfe.user.Executor;
 import ru.runa.wfe.user.User;
 import ru.runa.wfe.user.dao.ExecutorDao;
+import ru.runa.wfe.util.Pair;
 
 
 /**
@@ -82,10 +68,10 @@ public class PermissionDao extends CommonDao {
     }
 
     /**
-     * Called once after patches are successfully applied.
+     * Called once after migrations are successfully applied.
      */
-    public void init() {
-        QPrivelegedMapping pm = QPrivelegedMapping.privelegedMapping;
+    public void preloadPrivilegedMapping() {
+        val pm = QPrivelegedMapping.privelegedMapping;
         CloseableIterator<PrivelegedMapping> i = queryFactory.selectFrom(pm).iterate();
         while (i.hasNext()) {
             PrivelegedMapping m = i.next();
@@ -96,7 +82,7 @@ public class PermissionDao extends CommonDao {
     }
 
     public List<Permission> getIssuedPermissions(Executor executor, SecuredObject object) {
-        QPermissionMapping pm = QPermissionMapping.permissionMapping;
+        val pm = QPermissionMapping.permissionMapping;
         return queryFactory.select(pm.permission).from(pm)
                 .where(pm.objectType.eq(object.getSecuredObjectType())
                         .and(pm.objectId.eq(object.getIdentifiableId()))
@@ -134,7 +120,7 @@ public class PermissionDao extends CommonDao {
             }
         }
         if (!toDelete.isEmpty()) {
-            QPermissionMapping pm = QPermissionMapping.permissionMapping;
+            val pm = QPermissionMapping.permissionMapping;
             queryFactory.delete(pm)
                     .where(pm.objectType.eq(object.getSecuredObjectType())
                             .and(pm.objectId.eq(object.getIdentifiableId()))
@@ -229,7 +215,7 @@ public class PermissionDao extends CommonDao {
         }
 
         PermissionSubstitutions.ForCheck subst = PermissionSubstitutions.getForCheck(type, permission);
-        QPermissionMapping pm = QPermissionMapping.permissionMapping;
+        val pm = QPermissionMapping.permissionMapping;
 
         // Same type for all objects, thus same listType. I believe it would be faster to perform separate query here.
         // ATTENTION!!! Also, HQL query with two conditions (on both type and listType) always returns empty rowset. :(
@@ -243,11 +229,16 @@ public class PermissionDao extends CommonDao {
             return haveIds ? new HashSet<>(idsOrNull) : nonEmptySet;
         }
 
-        Set<Long> result = new HashSet<>();
+        val result = new HashSet<Long>();
+        val typesToCheck = new HashSet<SecuredObjectType>();
+        typesToCheck.add(type);
+        if (type == SecuredObjectType.ACTOR || type == SecuredObjectType.GROUP) {
+            typesToCheck.add(SecuredObjectType.EXECUTOR);
+        }
         for (List<Long> idsPart : haveIds ? Lists.partition(idsOrNull, SystemProperties.getDatabaseParametersCount()) : nonEmptyListList) {
             JPQLQuery<Long> q = queryFactory.select(pm.id).from(pm)
                     .where(pm.executor.in(executorWithGroups)
-                            .and(pm.objectType.eq(type))
+                            .and(pm.objectType.in(typesToCheck))
                             .and(pm.permission.in(subst.selfPermissions)));
             if (haveIds) {
                 result.addAll(q.where(pm.objectId.in(idsPart)).fetch());
@@ -261,18 +252,18 @@ public class PermissionDao extends CommonDao {
     /**
      * Checks whether executor has permission on securedObject's. Create result array in same order, as securedObject's.
      *
+     * TODO Merge with filterAllowedIds() method above, by returning BOTH results. (But what about "ids" here vs "idsOrNull" there?)
+     *
      * @param user
      *            Executor, which permission must be check.
      * @param permission
      *            Checking permission.
-     * @param securedObjects
-     *            Secured objects to check permission on.
+     * @param ids
+     *            Secured object IDs to check.
      * @return Array of: true if executor has requested permission on securedObject; false otherwise.
-     * @deprecated Use filterAllowedIds() which takes list of IDs, not of whole entities.
      */
-    @Deprecated
-    public <T extends SecuredObject> boolean[] isAllowed(User user, Permission permission, List<T> securedObjects) {
-        boolean[] result = new boolean[securedObjects.size()];
+    public boolean[] isAllowed(User user, Permission permission, SecuredObjectType type, List<Long> ids) {
+        boolean[] result = new boolean[ids.size()];
         if (result.length == 0) {
             return result;
         }
@@ -283,7 +274,6 @@ public class PermissionDao extends CommonDao {
             return result;
         }
 
-        SecuredObjectType type = securedObjects.get(0).getSecuredObjectType();
         Set<Executor> executorWithGroups = getExecutorWithAllHisGroups(user.getActor());
         if (isPrivilegedExecutor(type, executorWithGroups)) {
             Arrays.fill(result, true);
@@ -291,7 +281,7 @@ public class PermissionDao extends CommonDao {
         }
 
         PermissionSubstitutions.ForCheck subst = PermissionSubstitutions.getForCheck(type, permission);
-        QPermissionMapping pm = QPermissionMapping.permissionMapping;
+        val pm = QPermissionMapping.permissionMapping;
         // Same type for all objects, thus same listType. I believe it would be faster to perform separate query here.
         if (!subst.listPermissions.isEmpty() && queryFactory.select(pm.id).from(pm)
                 .where(pm.executor.in(executorWithGroups)
@@ -303,7 +293,12 @@ public class PermissionDao extends CommonDao {
             return result;
         }
 
-        Set<Long> allowedIdentifiableIds = new HashSet<>(result.length);
+        val typesToCheck = new HashSet<SecuredObjectType>();
+        typesToCheck.add(type);
+        if (type == SecuredObjectType.ACTOR || type == SecuredObjectType.GROUP) {
+            typesToCheck.add(SecuredObjectType.EXECUTOR);
+        }
+        val allowedIdentifiableIds = new HashSet<Long>(result.length);
         int window = SystemProperties.getDatabaseParametersCount() - executorWithGroups.size() - 2;
         Preconditions.checkArgument(window > 100);
         for (int i = 0; i <= (result.length - 1) / window; ++i) {
@@ -311,26 +306,27 @@ public class PermissionDao extends CommonDao {
             int end = Math.min((i + 1) * window, result.length);
             List<Long> identifiableIds = new ArrayList<>(end - start);
             for (int j = start; j < end; j++) {
-                SecuredObject securedObject = securedObjects.get(j);
-                identifiableIds.add(securedObject.getIdentifiableId());
-                if (type != securedObject.getSecuredObjectType()) {
-                    throw new InternalApplicationException("Secured objects should be of the same secured object type (" + type + ")");
-                }
+                identifiableIds.add(ids.get(j));
             }
             if (identifiableIds.isEmpty()) {
                 break;
             }
             allowedIdentifiableIds.addAll(queryFactory.selectDistinct(pm.objectId).from(pm)
                     .where(pm.executor.in(executorWithGroups)
-                            .and(pm.objectType.eq(type))
+                            .and(pm.objectType.in(typesToCheck))
                             .and(pm.objectId.in(identifiableIds))
                             .and(pm.permission.in(subst.selfPermissions)))
                     .fetch());
         }
-        for (int i = 0; i < securedObjects.size(); i++) {
-            result[i] = allowedIdentifiableIds.contains(securedObjects.get(i).getIdentifiableId());
+        for (int i = 0; i < ids.size(); i++) {
+            result[i] = allowedIdentifiableIds.contains(ids.get(i));
         }
         return result;
+    }
+
+    public <T extends SecuredObject> boolean[] isAllowed(User user, Permission permission, List<T> objects) {
+        Pair<SecuredObjectType, ArrayList<Long>> pair = SecuredObjectUtil.splitObjectsToTypeAndIds(objects);
+        return isAllowed(user, permission, pair.getValue1(), pair.getValue2());
     }
 
     private Set<Executor> getExecutorWithAllHisGroups(Executor executor) {
@@ -343,23 +339,27 @@ public class PermissionDao extends CommonDao {
      * Deletes all permissions for executor.
      */
     public void deleteOwnPermissions(Executor executor) {
-        QPermissionMapping pm = QPermissionMapping.permissionMapping;
+        val pm = QPermissionMapping.permissionMapping;
         queryFactory.delete(pm).where(pm.executor.eq(executor)).execute();
     }
 
     /**
      * Deletes all permissions for securedObject.
      */
-    public void deleteAllPermissions(SecuredObject obj) {
+    public void deleteAllPermissions(@NonNull SecuredObject obj) {
+        deleteAllPermissions(obj.getSecuredObjectType(), obj.getIdentifiableId());
+    }
+
+    public void deleteAllPermissions(@NonNull SecuredObjectType type, long id) {
         QPermissionMapping pm = QPermissionMapping.permissionMapping;
-        queryFactory.delete(pm).where(pm.objectType.eq(obj.getSecuredObjectType()).and(pm.objectId.eq(obj.getIdentifiableId()))).execute();
+        queryFactory.delete(pm).where(pm.objectType.eq(type).and(pm.objectId.eq(id))).execute();
     }
 
     /**
      * Load {@linkplain Executor}s which have permission on {@linkplain SecuredObject}. <b>Paging is not enabled.</b>
      */
     public Set<Executor> getExecutorsWithPermission(SecuredObject obj) {
-        QPermissionMapping pm = QPermissionMapping.permissionMapping;
+        val pm = QPermissionMapping.permissionMapping;
         List<Executor> list = queryFactory.selectDistinct(pm.executor).from(pm)
                 .where(pm.objectType.eq(obj.getSecuredObjectType()).and(pm.objectId.eq(obj.getIdentifiableId())))
                 .fetch();
@@ -497,7 +497,7 @@ public class PermissionDao extends CommonDao {
     }
 
     public boolean permissionExists(final Executor executor, final Permission permission, final SecuredObject object) {
-        QPermissionMapping pm = QPermissionMapping.permissionMapping;
+        val pm = QPermissionMapping.permissionMapping;
         return queryFactory.select(pm.id).from(pm)
                 .where(pm.executor.eq(executor)
                         .and(pm.objectType.eq(object.getSecuredObjectType()))

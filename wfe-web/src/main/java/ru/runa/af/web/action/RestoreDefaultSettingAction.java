@@ -19,15 +19,16 @@ public class RestoreDefaultSettingAction extends ActionBase {
     
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        if (!Delegates.getExecutorService().isAdministrator(Commons.getUser(request.getSession())))
+        if (!Delegates.getExecutorService().isAdministrator(Commons.getUser(request.getSession()))) {
             throw new AuthorizationException("No permission on this page");
+        }
         try {
             RestoreDefaultSettingValueForm pform = (RestoreDefaultSettingValueForm) form;
             String settingName = pform.getSettingName();
             PropertyResources resource = new PropertyResources(pform.getFileName());
             Long settingIdentifier = resource.getIdentifier(settingName);
             if (settingIdentifier != null) {
-                ApplicationContextFactory.getSettingDAO().delete(settingIdentifier);
+                ApplicationContextFactory.getSettingDao().delete(settingIdentifier);
             }
             resource.removeCachedProperty(settingName);
         } catch (Exception e) {

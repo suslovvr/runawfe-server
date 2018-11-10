@@ -8,13 +8,13 @@ import java.util.Set;
 import java.util.StringTokenizer;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import lombok.extern.apachecommons.CommonsLog;
 import ru.runa.wfe.InternalApplicationException;
 import ru.runa.wfe.commons.CalendarUtil;
 import ru.runa.wfe.user.Executor;
 import ru.runa.wfe.var.VariableProvider;
 
+@CommonsLog
 public class ConditionProcessor {
 
     private static final String LIKE_EXPR_END = ".toLowerCase()) >= 0";
@@ -32,8 +32,6 @@ public class ConditionProcessor {
     private static final String SPACE = " ";
 
     private static final String AND_LITERAL = "AND";
-
-    private static final Log log = LogFactory.getLog(ConditionProcessor.class);
 
     private static Set<String> operators = Sets.newHashSet(">", ">=", "<", "<=", "!=");
 

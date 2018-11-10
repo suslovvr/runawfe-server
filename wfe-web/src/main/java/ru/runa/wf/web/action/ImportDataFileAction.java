@@ -1,5 +1,7 @@
 package ru.runa.wf.web.action;
 
+import com.google.common.base.Strings;
+import com.google.common.io.ByteStreams;
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,20 +9,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
-
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
-
-import com.google.common.base.Strings;
-import com.google.common.io.ByteStreams;
-
 import ru.runa.common.web.MessagesOther;
 import ru.runa.common.web.Resources;
 import ru.runa.common.web.action.ActionBase;
@@ -109,7 +105,7 @@ public class ImportDataFileAction extends ActionBase {
 
             User user = getLoggedUser(request);
             if (clearBeforeUpload) {
-                List<WfProcess> processes = Delegates.getExecutionService().getProcesses(user, BatchPresentationFactory.PROCESSES.createNonPaged());
+                List<WfProcess> processes = Delegates.getExecutionService().getProcesses(user, BatchPresentationFactory.CURRENT_PROCESSES.createNonPaged());
                 ProcessFilter processFilter = new ProcessFilter();
                 for (WfProcess process : processes) {
                     if (!Strings.isNullOrEmpty(process.getHierarchyIds())) {
@@ -152,7 +148,7 @@ public class ImportDataFileAction extends ActionBase {
                         BatchPresentationFactory.EXECUTORS.createNonPaged());
                 List<Long> ids = new ArrayList<Long>();
                 for (Executor executor : executors) {
-                    if (ApplicationContextFactory.getPermissionDAO().isPrivilegedExecutor(executor)) {
+                    if (ApplicationContextFactory.getPermissionDao().isPrivilegedExecutor(executor)) {
                         continue;
                     }
                     if (SystemExecutors.PROCESS_STARTER_NAME.equals(executor.getName())) {

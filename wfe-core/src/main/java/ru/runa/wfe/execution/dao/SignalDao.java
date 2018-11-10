@@ -10,6 +10,10 @@ import ru.runa.wfe.execution.Signal;
 @Component
 public class SignalDao extends GenericDao<Signal> {
 
+    public SignalDao() {
+        super(Signal.class);
+    }
+
     public List<Signal> findByMessageSelectorsContainsOrEmpty(String messageSelector) {
         QSignal s = QSignal.signal;
         return queryFactory.selectFrom(s).where(s.messageSelectorsValue.contains(messageSelector).or(s.messageSelectorsValue.isNull())).fetch();

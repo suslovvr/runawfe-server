@@ -7,5 +7,4 @@ public class JdbcStoreException extends RuntimeException {
     public JdbcStoreException(Throwable cause) {
         super("error.jdbc.store", cause);
     }
-
 }

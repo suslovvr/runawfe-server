@@ -1,20 +1,3 @@
-/*
- * This file is part of the RUNA WFE project.
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public License
- * as published by the Free Software Foundation; version 2.1
- * of the License.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
- */
 package ru.runa.wfe.execution.dto;
 
 import com.google.common.base.MoreObjects;
@@ -45,7 +28,13 @@ public class WfProcess extends SecuredObjectBase {
     private Date startDate;
     private Date endDate;
     private int version;
+    private boolean archive;
+
+    /**
+     * In fact, this is processDefinitionVersionId. But I cannot change structure which is part of the API.
+     */
     private Long definitionId;
+
     private String hierarchyIds;
     // map is not usable in web services
     private final List<WfVariable> variables = Lists.newArrayList();
@@ -56,13 +45,14 @@ public class WfProcess extends SecuredObjectBase {
 
     public WfProcess(Process process) {
         id = process.getId();
-        name = process.getDeployment().getName();
-        definitionId = process.getDeployment().getId();
-        version = process.getDeployment().getVersion().intValue();
+        name = process.getDefinitionVersion().getDefinition().getName();
+        definitionId = process.getDefinitionVersion().getId();
+        version = process.getDefinitionVersion().getVersion().intValue();
         startDate = process.getStartDate();
         endDate = process.getEndDate();
         hierarchyIds = process.getHierarchyIds();
         executionStatus = process.getExecutionStatus();
+        archive = process.isArchive();
     }
 
     @Override
@@ -98,6 +88,9 @@ public class WfProcess extends SecuredObjectBase {
         return version;
     }
 
+    /**
+     * In fact, this is processDefinitionVersionId. But I cannot change structure which is part of the API.
+     */
     public Long getDefinitionId() {
         return definitionId;
     }
@@ -131,6 +124,10 @@ public class WfProcess extends SecuredObjectBase {
 
     public ExecutionStatus getExecutionStatus() {
         return executionStatus;
+    }
+
+    public boolean isArchive() {
+        return archive;
     }
 
     @Override

@@ -1,20 +1,3 @@
-/*
- * This file is part of the RUNA WFE project.
- * 
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU Lesser General Public License 
- * as published by the Free Software Foundation; version 2.1 
- * of the License. 
- * 
- * This program is distributed in the hope that it will be useful, 
- * but WITHOUT ANY WARRANTY; without even the implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
- * GNU Lesser General Public License for more details. 
- * 
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this program; if not, write to the Free Software 
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
- */
 package ru.runa.wfe.security.logic;
 
 import com.google.common.base.Preconditions;
@@ -33,14 +16,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import lombok.val;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import ru.runa.wfe.commons.SystemProperties;
 import ru.runa.wfe.commons.logic.CommonLogic;
 import ru.runa.wfe.commons.logic.PresentationCompilerHelper;
 import ru.runa.wfe.commons.xml.XmlUtils;
-import ru.runa.wfe.definition.QDeployment;
+import ru.runa.wfe.definition.QProcessDefinition;
 import ru.runa.wfe.presentation.BatchPresentation;
 import ru.runa.wfe.presentation.hibernate.PresentationConfiguredCompiler;
 import ru.runa.wfe.security.AuthorizationException;
@@ -62,9 +47,12 @@ import static ru.runa.wfe.security.SecuredObjectType.GROUP;
 /**
  * Created on 14.03.2005
  */
+@Component
 public class AuthorizationLogic extends CommonLogic {
+
     @Autowired
     private SecuredObjectFactory securedObjectFactory;
+
     /**
      * Used by addPermissions() and setPermissions(), to avoid duplicated rows in table "permission_mapping".
      */
@@ -106,12 +94,16 @@ public class AuthorizationLogic extends CommonLogic {
         return permissionDao.isAllowed(user, permission, object.getSecuredObjectType(), object.getIdentifiableId());
     }
 
-    public boolean isAllowed(User user, Permission permission, SecuredObjectType securedObjectType, Long identifiableId) {
-        return permissionDao.isAllowed(user, permission, securedObjectType, identifiableId);
+    public boolean isAllowed(User user, Permission permission, SecuredObjectType type, Long identifiableId) {
+        return permissionDao.isAllowed(user, permission, type, identifiableId);
     }
 
     public <T extends SecuredObject> boolean[] isAllowed(User user, Permission permission, List<T> securedObjects) {
         return permissionDao.isAllowed(user, permission, securedObjects);
+    }
+
+    public boolean[] isAllowed(User user, Permission permission, SecuredObjectType type, List<Long> ids) {
+        return permissionDao.isAllowed(user, permission, type, ids);
     }
 
     public boolean isAllowedForAny(User user, Permission permission, SecuredObjectType securedObjectType) {
@@ -143,8 +135,8 @@ public class AuthorizationLogic extends CommonLogic {
     public void exportDataFile(User user, Document script) {
         permissionDao.checkAllowed(user, Permission.ALL, SecuredSingleton.DATAFILE);
         Element parentElement = script.getRootElement();
-        QPermissionMapping pm = QPermissionMapping.permissionMapping;
-        QExecutor e = QExecutor.executor;
+        val pm = QPermissionMapping.permissionMapping;
+        val e = QExecutor.executor;
 
         // Export permissions of all singletons.
         {
@@ -172,7 +164,7 @@ public class AuthorizationLogic extends CommonLogic {
 
         // Export DEFINITION permissions.
         {
-            QDeployment d = QDeployment.deployment;
+            val d = QProcessDefinition.processDefinition;
             exportDataFileImpl(parentElement, queryFactory.select(pm.permission, e.name, pm.objectType, d.name)
                     .from(pm, e, d)
                     .where(pm.objectType.eq(DEFINITION).and(pm.objectId.eq(d.id)).and(pm.executor.eq(e)))
@@ -239,7 +231,7 @@ public class AuthorizationLogic extends CommonLogic {
         Executor executor = executorDao.getExecutor(executorName);  // [QSL] Only id is needed, or maybe even join would be enough.
         permissionDao.checkAllowed(user, Permission.LIST, executor);
 
-        QPermissionMapping pm = QPermissionMapping.permissionMapping;
+        val pm = QPermissionMapping.permissionMapping;
 
         for (Map.Entry<SecuredObjectType, Set<String>> kv : objectNames.entrySet()) {
             SecuredObjectType type = kv.getKey();
@@ -322,7 +314,7 @@ public class AuthorizationLogic extends CommonLogic {
         Executor executor = executorDao.getExecutor(executorName);  // [QSL] Only id is needed, or maybe even join would be enough.
         permissionDao.checkAllowed(user, Permission.LIST, executor);
 
-        QPermissionMapping pm = QPermissionMapping.permissionMapping;
+        val pm = QPermissionMapping.permissionMapping;
 
         for (Map.Entry<SecuredObjectType, Set<String>> kv : objectNames.entrySet()) {
             SecuredObjectType type = kv.getKey();
