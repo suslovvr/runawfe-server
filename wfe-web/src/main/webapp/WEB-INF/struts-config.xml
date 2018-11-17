@@ -823,8 +823,8 @@
 			parameter="/WEB-INF/wf/update_process_swimlanes.jsp" />
 
 		<!-- UIv2; web.xml contains servlet-mapping with path="/ui2/*". -->
-		<action path="/ui2" type="org.apache.struts.actions.ForwardAction" parameter="/WEB-INF/ui2/index-redirect.jsp" />
-		<action path="/ui2/" type="org.apache.struts.actions.ForwardAction" parameter="/WEB-INF/ui2/index.jsp" />
+		<action path="/ui2" type="org.apache.struts.actions.ForwardAction" parameter="/WEB-INF/ui2/spa-redirect.jsp" />
+		<action path="/ui2/" type="org.apache.struts.actions.ForwardAction" parameter="/WEB-INF/ui2/spa.jsp" />
 	</action-mappings>
 
 	<controller contentType="text/html; charset=UTF-8" nocache="true"

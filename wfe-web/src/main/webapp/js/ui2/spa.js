@@ -1,49 +1,100 @@
-// TODO div#spa-splash, div#spa-wait, ajax error handling, localization, hash in hash (e.g. for tab controls; don't reload when 2nd hash changes).
+// TODO Error page (#spa-error): main menu, links "Retry" & "Go home".
+// TODO Localization.
+// TODO IE.
 
-function spaGotoUrl(s) {
-    window.location.hash = "#" + s;
-}
-
-function spaInit(versionHash) {
-    var title0 = document.title;
+var wfeSpa = new function() {
+    var self = this;
+    var versionHash;
+    var defaultUrl = "/tasks";
+    var titleSuffix = document.title;
     var attachedScriptsAndStyles = {};
     var cachedHtmls = {};
 
-    function showPage(html) {
+    this.wait = function() {
+        $('#spa-wait').show();
+    };
+    this.ready = function() {
+        $('#spa-body').show();
+        $('#spa-error').hide();
+        $('#spa-wait').hide();
+    };
+    this.error = function() {
+        $('#spa-body').hide();
+        $('#spa-error').show();
+        $('#spa-wait').hide();
+    };
+
+    function showPage(html, fromCache) {
         // Prevent loss of <html>, <head>, <body> tags; https://stackoverflow.com/a/10585079/4247442
         var eHtml = document.createElement("html");
         eHtml.innerHTML = html;
         var qHtml = $(eHtml);
 
         var title = qHtml.find("head title").text();
-        document.title = title ? title + " - " + title0 : title0;
-
-        // Inline scripts & styles are forbidden; see "onload" below.
-        qHtml.find("head script[src], head style[href]").each(function () {
-            var q = $(this);
-            var attrName = this.tagName == 'SCRIPT' ? 'src' : 'href';
-            var fileUri = q.attr(attrName);
-            if (!attachedScriptsAndStyles[fileUri]) {
-                attachedScriptsAndStyles[fileUri] = true;
-                $('head').append(q.clone().attr(attrName, fileUri + "?" + versionHash));
-            }
-        });
+        document.title = title ? title + " - " + titleSuffix : titleSuffix;
 
         var qBody = qHtml.find("body");
         $("#spa-body").empty().append(qBody.contents().clone());
 
-        // *.js files are cached, inline scripts are ignored. So need custom bootstrap stuff.
-        var onload = qBody.attr('onload');
-        if (onload) {
-            // Instead of onload() for each <script>; https://stackoverflow.com/a/14786759/4247442
-            setTimeout(onload, 10);
+        // HTML can include JS files in <head> and have body/@onload attribute; no other JS is allowed in HTML.
+        function onPageLoaded() {
+            console.log("*** Page loaded.");
+            var onload = qBody.attr('onload');
+            if (onload) {
+                // It must call wfeSpa.ready() itself.
+                eval(onload);
+            } else {
+                self.ready();
+            }
+        }
+
+        // Page must not and cannot call gotoPage() before it's fully loaded.
+        // So if we're loading from cache, all JS and CSS files must already be loaded.
+        var numFilesToWaitFor = 0;
+        if (!fromCache) {
+            function onFileLoaded() {
+                console.log("*** File loaded.");
+                if (--numFilesToWaitFor <= 0) {
+                    onPageLoaded();
+                }
+            }
+
+            // Inline scripts & styles are ignored; JS files cannot contain $(function) since they are loaded only once.
+            // So see onPageLoaded() above.
+            qHtml.find("head script[type='text/javascript'][src], head link[rel='stylesheet'][type='text/css'][href]").each(function () {
+                var isScript = this.tagName == 'SCRIPT';
+                var attrName = isScript ? 'src' : 'href';
+                var q = $(this);
+                var fileUrl = q.attr(attrName);
+                if (!attachedScriptsAndStyles[fileUrl]) {
+                    attachedScriptsAndStyles[fileUrl] = true;
+                    console.log("*** Attaching file: " + fileUrl);
+                    numFilesToWaitFor++;
+
+                    // Does not work with jquery; https://stackoverflow.com/a/22534608/4247442, https://stackoverflow.com/a/11425185/4247442
+                    var e = document.createElement(isScript ? 'script' : 'link');
+                    e.onload = onFileLoaded;
+                    if (isScript) {
+                        e.setAttribute('type', 'text/javascript');
+                        e.setAttribute('src', fileUrl);
+                    } else {
+                        e.setAttribute('rel', 'stylesheet');
+                        e.setAttribute('type', 'text/css');
+                        e.setAttribute('href', fileUrl);
+                    }
+                    document.head.appendChild(e);
+                }
+            });
+        }
+        if (numFilesToWaitFor == 0) {
+            onPageLoaded();
         }
     }
 
-    $(window).on("hashchange", function () {
+    function onHashChange() {
         var hash = window.location.hash;
         if (!hash.startsWith("#/")) {
-            spaGotoUrl("/tasks");
+            self.gotoUrl(defaultUrl);
             return;
         }
 
@@ -54,18 +105,36 @@ function spaInit(versionHash) {
         url = "/wfe/html/ui2" + url + ".html?" + versionHash;
 
         if (cachedHtmls[url]) {
-            showPage(cachedHtmls[url]);
+            showPage(cachedHtmls[url], true);
         } else {
+            self.wait();
             $.ajax({
                 url: url,
                 dataType: "html",
                 success: function (html) {
                     cachedHtmls[url] = html;
-                    showPage(html);
+                    showPage(html, false);
+                },
+                error: function() {
+                    self.error();
                 }
             });
         }
-    });
+    }
 
-    spaGotoUrl("/tasks");
-}
+    this.gotoUrl = function(s) {
+        s = "#" + s;
+        if (window.location.hash == s) {
+            // Reload current page (otherwise F5 & Ctrl+F5 won't work, also we may need to reload programmatically).
+            onHashChange();
+        } else {
+            window.location.hash = s;
+        }
+    };
+
+    this.init = function(versionHash_) {
+        versionHash = versionHash_;
+        $(window).on("hashchange", onHashChange);
+        wfeSpa.gotoUrl(defaultUrl);
+    }
+};
