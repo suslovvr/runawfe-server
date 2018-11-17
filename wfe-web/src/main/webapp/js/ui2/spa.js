@@ -37,7 +37,7 @@ var wfeSpa = new function() {
         var qBody = qHtml.find("body");
         $("#spa-body").empty().append(qBody.contents().clone());
 
-        // HTML can include JS files in <head> and have body/@onload attribute; no other JS is allowed in HTML.
+        // HTML can include JS & CSS files in <head>, inline JS in body, and body/@onload attribute.
         function onPageLoaded() {
             var onload = qBody.attr('onload');
             if (onload) {

@@ -5,7 +5,13 @@
     <script type="text/javascript" src="/wfe/js/ui2/tasks.js"></script>
     <link rel="stylesheet" type="text/css" href="/wfe/css/ui2/tasks.css"/>
 </head>
-<body onload="wfeTasks.init()">
+<body onload="wfeTasksInit()">
+<script type="text/javascript">
+    function wfeTasksInit() {
+        alert("wfeTasksInit() called!");
+        wfeTasks.init();
+    }
+</script>
 <h1>Tasks</h1>
 Text outside paragraphs 1.
 <p>Paragraph 1.</p>
