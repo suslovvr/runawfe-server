@@ -1,6 +1,7 @@
 // TODO Error page (#spa-error): main menu, links "Retry" & "Go home".
 // TODO Localization.
 // TODO IE.
+// TODO Wiki, incl. restrictions on HTML pages and JS files; cumulative JS & CSS includes.
 
 var wfeSpa = new function() {
     var self = this;
@@ -38,7 +39,6 @@ var wfeSpa = new function() {
 
         // HTML can include JS files in <head> and have body/@onload attribute; no other JS is allowed in HTML.
         function onPageLoaded() {
-            console.log("*** Page loaded.");
             var onload = qBody.attr('onload');
             if (onload) {
                 // It must call wfeSpa.ready() itself.
@@ -53,7 +53,6 @@ var wfeSpa = new function() {
         var numFilesToWaitFor = 0;
         if (!fromCache) {
             function onFileLoaded() {
-                console.log("*** File loaded.");
                 if (--numFilesToWaitFor <= 0) {
                     onPageLoaded();
                 }
@@ -62,17 +61,16 @@ var wfeSpa = new function() {
             // Inline scripts & styles are ignored; JS files cannot contain $(function) since they are loaded only once.
             // So see onPageLoaded() above.
             qHtml.find("head script[type='text/javascript'][src], head link[rel='stylesheet'][type='text/css'][href]").each(function () {
-                var isScript = this.tagName == 'SCRIPT';
+                var isScript = this.tagName === 'SCRIPT';
                 var attrName = isScript ? 'src' : 'href';
                 var q = $(this);
                 var fileUrl = q.attr(attrName);
                 if (!attachedScriptsAndStyles[fileUrl]) {
                     attachedScriptsAndStyles[fileUrl] = true;
-                    console.log("*** Attaching file: " + fileUrl);
                     numFilesToWaitFor++;
 
                     // Does not work with jquery; https://stackoverflow.com/a/22534608/4247442, https://stackoverflow.com/a/11425185/4247442
-                    var e = document.createElement(isScript ? 'script' : 'link');
+                    var e = document.createElement(this.tagName);
                     e.onload = onFileLoaded;
                     if (isScript) {
                         e.setAttribute('type', 'text/javascript');
@@ -86,7 +84,7 @@ var wfeSpa = new function() {
                 }
             });
         }
-        if (numFilesToWaitFor == 0) {
+        if (numFilesToWaitFor === 0) {
             onPageLoaded();
         }
     }
@@ -124,7 +122,7 @@ var wfeSpa = new function() {
 
     this.gotoUrl = function(s) {
         s = "#" + s;
-        if (window.location.hash == s) {
+        if (window.location.hash === s) {
             // Reload current page (otherwise F5 & Ctrl+F5 won't work, also we may need to reload programmatically).
             onHashChange();
         } else {
