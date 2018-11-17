@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
 import ru.runa.wfe.commons.xml.SecuredObejctTypeXmlAdapter;
 
 /**
@@ -43,7 +45,6 @@ public final class SecuredObjectType implements Serializable, Comparable<Secured
     public static List<SecuredObjectType> values() {
         return unmodifiableInstancesList;
     }
-
 
     private String name;
     private SecuredObjectType listType;
@@ -98,14 +99,45 @@ public final class SecuredObjectType implements Serializable, Comparable<Secured
         return name;
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        SecuredObjectType other = (SecuredObjectType) obj;
+        if (name == null) {
+            if (other.name != null) {
+                return false;
+            }
+        } else if (!name.equals(other.name)) {
+            return false;
+        }
+        return true;
+    }
+
     // Lists & list items:
 
     public static final SecuredObjectType EXECUTORS = new SecuredObjectType("EXECUTORS");
+
     public static final SecuredObjectType ACTOR = new SecuredObjectType("ACTOR", EXECUTORS);
     public static final SecuredObjectType GROUP = new SecuredObjectType("GROUP", EXECUTORS);
 
     /**
-     * @deprecated Fake, don't use. Hack added to support NamedIdentityType in scripts.
+     * @deprecated Fake, don't use. Hack added to support NamedIdentityType in scripts. 
      * TODO Dofs wanted to merge ACTOR and GROUP types into EXECUTOR, this would be good.
      */
     @Deprecated

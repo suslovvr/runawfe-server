@@ -17,17 +17,18 @@
  */
 package ru.runa.wfe.security;
 
-import com.google.common.base.Objects;
 import java.io.Serializable;
 import java.util.HashMap;
+
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import com.google.common.base.Objects;
+
 import ru.runa.wfe.commons.xml.Permission2XmlAdapter;
 
-
 /**
- * "Extensible enum": more "enum items" can be added elsewhere.
- * For example, if subproject needs additional permissions EXTRA_EXECUTOR_PERM and EXTRA_ACTOR_PERM
- * applicable to actors and groups, code it like this:
+ * "Extensible enum": more "enum items" can be added elsewhere. For example, if subproject needs additional permissions EXTRA_EXECUTOR_PERM and
+ * EXTRA_ACTOR_PERM applicable to actors and groups, code it like this:
  *
  * <pre>
  * class ExtraPermission {
@@ -43,24 +44,20 @@ import ru.runa.wfe.commons.xml.Permission2XmlAdapter;
  *         // Note 1: declare substitutions after declaring applicability.
  *         // Note 2: list type EXECUTORS is known from SecuredObjectType.ACTOR definition.
  *         // Note 3: lists's ALL is already a substitution for list's UPDATE, and list's UPDATE is already
- *         //         a substitution for instance's UDPATE (see PermissionSubstitutions static initialization),
- *         //         so .list() call can be omitted here.
- *         PermissionSubstitutions.add(SecuredObjectType.ACTOR, EXTRA_ACTOR_PERM)
- *                 .self(Permission.UPDATE)
- *                 .list(Permission.ALL, Permission.UPDATE);
+ *         // a substitution for instance's UDPATE (see PermissionSubstitutions static initialization),
+ *         // so .list() call can be omitted here.
+ *         PermissionSubstitutions.add(SecuredObjectType.ACTOR, EXTRA_ACTOR_PERM).self(Permission.UPDATE).list(Permission.ALL, Permission.UPDATE);
  *     }
  * }
  * </pre>
  *
- * These permissions are pretty fine-grained. Some of them are as hidden (globally or for specific object types),
- * i.e. used internally but not editable by user. See method {@link ApplicablePermissions.DSL#hidden(Permission...)}
- * for details.
+ * These permissions are pretty fine-grained. Some of them are as hidden (globally or for specific object types), i.e. used internally but not
+ * editable by user. See method {@link ApplicablePermissions.DSL#hidden(Permission...)} for details.
  * <p>
- * <b>ATTENTION!!!</b> Since once initialization completes, permissions are accessed as read-only,
- * no synchronization is done on internal structures to avoid unnecessary performance overhead.
- * So you MUST initialize permissions in single thread. Make sure that all classes that perform
- * this initialization (Permission itself and, considering example above, ExtraPermission)
- * are touched by class-loader in main thread during application startup.
+ * <b>ATTENTION!!!</b> Since once initialization completes, permissions are accessed as read-only, no synchronization is done on internal structures
+ * to avoid unnecessary performance overhead. So you MUST initialize permissions in single thread. Make sure that all classes that perform this
+ * initialization (Permission itself and, considering example above, ExtraPermission) are touched by class-loader in main thread during application
+ * startup.
  *
  * @see SecuredObjectType
  * @see ApplicablePermissions
@@ -75,9 +72,9 @@ public final class Permission implements Serializable, Comparable<Permission> {
     /**
      * Mimics enum's valueOf() method, including thrown exception type.
      *
-     * Old Permission threw PermissionNotFoundException (now renamed to PermissionNotApplicableException)
-     * which is subclass of InternalApplicationException; but unknown Throwable is wrapped
-     * into InternalApplicationException by exception handlers, so there's no difference.
+     * Old Permission threw PermissionNotFoundException (now renamed to PermissionNotApplicableException) which is subclass of
+     * InternalApplicationException; but unknown Throwable is wrapped into InternalApplicationException by exception handlers, so there's no
+     * difference.
      */
     public static Permission valueOf(String name) {
         Permission result;
@@ -92,13 +89,13 @@ public final class Permission implements Serializable, Comparable<Permission> {
         return result;
     }
 
-
     private final String name;
 
     /**
-     * @param name Should be equal to instance name. Returned by name() method.
+     * @param name
+     *            Should be equal to instance name. Returned by name() method.
      */
-    public Permission(String name) {
+    Permission(String name) {
         if (name == null || name.isEmpty() || name.length() > 32) {
             // permission_mapping.permission is varchar(32)
             throw new RuntimeException("Null, empty or too large Permission name");
@@ -129,6 +126,35 @@ public final class Permission implements Serializable, Comparable<Permission> {
         return Objects.toStringHelper(this).add("name", getName()).toString();
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Permission other = (Permission) obj;
+        if (name == null) {
+            if (other.name != null) {
+                return false;
+            }
+        } else if (!name.equals(other.name)) {
+            return false;
+        }
+        return true;
+    }
 
     /**
      * All permissions.
@@ -164,14 +190,14 @@ public final class Permission implements Serializable, Comparable<Permission> {
      * Formerly no-arg Permission constructor, used only as PropertyTdBuilder constructor argument in FieldDescriptor constructor calls.
      * PermissionDAO.isAllowed...() checks always return false for it, without accessing database.
      *
-     * TODO Review all usages. PropertyTdBuilder's 2/3 constructors' behaviour looks contradictionary with its own base class.
-     *      Maybe with a little more refactoring, NONE can be removed and null can be passed everywhere instead.
+     * TODO Review all usages. PropertyTdBuilder's 2/3 constructors' behaviour looks contradictionary with its own base class. Maybe with a little
+     * more refactoring, NONE can be removed and null can be passed everywhere instead.
      */
     public static final Permission NONE = new Permission("NONE");
 
     /**
-     * Read objects list, corresponding menu item is visible.
-     * When applied to specific objects instead of whole list, only those objects will be visible in list.
+     * Read objects list, corresponding menu item is visible. When applied to specific objects instead of whole list, only those objects will be
+     * visible in list.
      */
     public static final Permission LIST = new Permission("LIST");
 
