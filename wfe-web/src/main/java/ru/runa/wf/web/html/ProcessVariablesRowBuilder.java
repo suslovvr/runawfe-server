@@ -26,7 +26,6 @@ import org.apache.ecs.html.TR;
 
 import ru.runa.common.WebResources;
 import ru.runa.common.web.Commons;
-import ru.runa.common.web.Messages;
 import ru.runa.common.web.MessagesOther;
 import ru.runa.common.web.Resources;
 import ru.runa.common.web.StrutsWebHelper;

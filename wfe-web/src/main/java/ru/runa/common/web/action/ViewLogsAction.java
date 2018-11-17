@@ -28,7 +28,6 @@ import ru.runa.wfe.commons.IoCommons;
 import ru.runa.wfe.security.Permission;
 import ru.runa.wfe.security.SecuredSingleton;
 import ru.runa.wfe.service.delegate.Delegates;
-import ru.runa.wfe.user.User;
 
 /**
  * @author dofs

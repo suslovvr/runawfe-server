@@ -18,12 +18,10 @@
 package ru.runa.common.web.filter;
 
 import java.io.IOException;
-
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import ru.runa.common.web.Commons;
 import ru.runa.common.web.InvalidSessionException;
 
@@ -38,18 +36,18 @@ public class HTTPSessionFilter extends HTTPFilterBase {
     @Override
     protected void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         String query = request.getRequestURI();
-        if (query.equals("/wfe/")) {
-            try {
-                Commons.getUser(request.getSession());
+        try {
+            Commons.getUser(request.getSession());
+            // Logged in.
+            if (query.equals("/wfe/")) {
                 forwardToPage(request, response, "manage_tasks.do");
-            } catch (InvalidSessionException e) {
+                return;
             }
-        }
-        if (query.endsWith("do") && !query.endsWith("/start.do") && !query.endsWith("login.do") && !query.endsWith("version")
-                || query.endsWith("monitoring")) {
-            try {
-                Commons.getUser(request.getSession());
-            } catch (InvalidSessionException e) {
+        } catch (InvalidSessionException e) {
+            // Logged out.
+            if (query.endsWith(".do") && !query.endsWith("/start.do") && !query.endsWith("login.do") ||
+                    query.startsWith(request.getContextPath() + "/ui2/") ||
+                    query.endsWith("monitoring")) {
                 request.setAttribute("forwardUrl", request.getRequestURI());
                 forwardToLoginPage(request, response, e);
                 return;
@@ -57,5 +55,4 @@ public class HTTPSessionFilter extends HTTPFilterBase {
         }
         chain.doFilter(request, response);
     }
-
 }

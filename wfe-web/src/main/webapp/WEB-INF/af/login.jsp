@@ -1,14 +1,14 @@
-<%@page import="ru.runa.common.Version"%>
-<%@ page language="java" pageEncoding="UTF-8" session="false" %>
+<%@ page pageEncoding="UTF-8" session="false" %>
 <%@ page import="java.net.URLDecoder" %>
-<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html"%>
+<%@ page import="ru.runa.common.Version" %>
+<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
 <%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
 
-<% 
+<%
 	String userName = request.getParameter("login") == null ? "" : URLDecoder.decode(request.getParameter("login"), "utf-8");
 	String userPwd = request.getParameter("password") == null ? "" : URLDecoder.decode(request.getParameter("password"), "utf-8");
 	String forwardUrl = request.getAttribute("forwardUrl") == null ? "" : URLDecoder.decode(request.getAttribute("forwardUrl").toString(), "utf-8");
-	if (forwardUrl.contains("/wfe")){
+	if (forwardUrl.startsWith("/wfe")) {
 		forwardUrl = forwardUrl.substring("/wfe".length());
 	}
 	if (request.getQueryString() != null && request.getQueryString().isEmpty() != true){
