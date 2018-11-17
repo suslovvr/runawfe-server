@@ -19,11 +19,9 @@ package ru.runa.af.web.action;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-
 import ru.runa.af.web.form.LoginForm;
 import ru.runa.common.web.Commons;
 import ru.runa.common.web.ProfileHttpSessionHelper;
@@ -32,9 +30,6 @@ import ru.runa.common.web.TabHttpSessionHelper;
 import ru.runa.common.web.action.ActionBase;
 import ru.runa.wfe.service.delegate.Delegates;
 import ru.runa.wfe.user.User;
-
-import java.util.Enumeration;
-import java.util.Map;
 
 /**
  * Created on 09.08.2004
