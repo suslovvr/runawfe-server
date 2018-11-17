@@ -41,7 +41,7 @@ var wfeSpa = new function() {
         function onPageLoaded() {
             var onload = qBody.attr('onload');
             if (onload) {
-                // It must call wfeSpa.ready() itself.
+                // It must call wfeSpa.wait() if it performs ajax requests; and always -- wfeSpa.ready() or wfeSpa.error().
                 eval(onload);
             } else {
                 self.ready();
