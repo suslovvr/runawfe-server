@@ -6,9 +6,9 @@ TODO Localization.
     Server-side templates, I suppose.
 TODO IE.
 TODO Wiki, including:
-    Restrictions on HTML pages and JS files: only title and links to JS / CSS files is accepted; body[onload].
-    How it works: cumulative JS & CSS into main body.
-    For speed and low traffic, don't user browser's refresh unless re-login.
+    Restrictions on HTML pages and JS files: only title and links to JS / CSS files is accepted; body[onload] is special.
+    How it works: cumulative JS & CSS into <head>.
+    For speed and low traffic, don't user browser's refresh.
     onLoad() must call wfe.wait() if it does ajax request(s), and always must call wfe.ready() (or wfe.error() if ajax fails)
         because wfe.wait() is called by SPA on first page access without subsequent wfe.ready().
         This is done in wfe.ajaxGetJson() helper.
@@ -16,6 +16,11 @@ TODO Authentication: currently done by old site, currentUser is rendered on serv
 TODO Move to REST API.
     But first, what about REST Authentication?
     Path-encoded vars in Struts actions?
+        There's a plugin for Struts >= 2.1.1 for that; no way to do it in Struts 1. So we've got 3 choices:
+        - Upgrade Struts 1 --> 2. Waste of time.
+        - Make API without path-encoded params, migrate TNMS to it, get rid of JEE (deploy as single .war), migrate to Spring MVC, fix API URIs.
+        - Invent bicycle. BTW request mapping without path params can be done in 20 lines, why needed Struts for that at all?!
+          Parameter validation can be done with Hibernate's JSR303 implementation I believe.
     Then, current UI2 API requests should accept requested columns list (along with pagination, etc.)
         On server side, this column list is best mapped to SQL column list, to minimize java-sql traffic too.
 TODO Should generate JSON without RAM usage, in a style of Apache wink-json4j.
