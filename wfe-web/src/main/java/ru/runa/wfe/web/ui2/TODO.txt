@@ -15,6 +15,7 @@ TODO Wiki, including:
 TODO Authentication: currently done by old site, currentUser is rendered on server-side in JSP.
 TODO Move to REST API.
     But first, what about REST Authentication?
+    Path-encoded vars in Struts actions?
     Then, current UI2 API requests should accept requested columns list (along with pagination, etc.)
         On server side, this column list is best mapped to SQL column list, to minimize java-sql traffic too.
 TODO Should generate JSON without RAM usage, in a style of Apache wink-json4j.
