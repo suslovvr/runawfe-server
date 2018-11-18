@@ -1,5 +1,4 @@
-    <%@ page import="ru.runa.common.web.Commons" %>
-        <%@ page pageEncoding="UTF-8" %>
+<%@ page pageEncoding="UTF-8" %>
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
 <%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
 <html:html>
@@ -13,7 +12,7 @@
             <tiles:insert attribute="content" ignore="true"/>
         </div></div>
         <div class="leftmenuback"><div class="leftmenuwrap">
-            <div class="<%= "tasks".equals(mm) ? "active" : "" %>">
+            <div class="<%= "myTasks".equals(mm) ? "active" : "" %>">
                 <img src="/wfe/images/ui2/ico/mainMenu/myTasks.png" alt="Мои задачи" title="Мои задачи" onclick="wfe.spa.gotoUrl('/myTasks')"/>
             </div>
             <div class="<%= "processDefs".equals(mm) ? "active" : "" %>">
@@ -30,7 +29,7 @@
         </div></div>
         <div class="topmenuwrap">
             <img src="/wfe/images/ui2/ico/user.png" />
-            <span><%= Commons.getUser(pageContext.getSession()).getName() %></span>
+            <span>{{currentUser.name}}</span>
         </div>
     </body>
 </html:html>

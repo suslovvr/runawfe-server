@@ -12,8 +12,6 @@ body, #spa-wait, #spa-body, #spa-error {
 #spa-wait {
     position: fixed;
     z-index: 1000;
-    background-color: white;
-    opacity: 0.7;
 }
 #spa-wait td {
     text-align: center;

@@ -5,12 +5,14 @@ import java.util.ArrayList;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.extern.apachecommons.CommonsLog;
 import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import ru.runa.wfe.user.User;
 
 /**
  * @param <Q> Request form parsed by Struts.
@@ -25,15 +27,33 @@ public abstract class Api<Q extends ActionForm, A> extends Action {
     static class EmptyRequest extends ActionForm {
     }
 
+    @Getter
+    static class BaseResponse {
+
+        @AllArgsConstructor
+        @Getter
+        static class CurrentUser {
+            long id;
+            String name;
+        }
+
+        private final CurrentUser currentUser;
+
+        BaseResponse(User u) {
+            currentUser = (u == null) ? null : new CurrentUser(u.getActor().getId(), u.getName());
+        }
+    }
+
     /**
      * Helper for subclasses.
      */
     @Getter
-    static class ListResponse<R> {
+    static class ListResponse<R> extends BaseResponse {
         private final int count;
         private final ArrayList<R> rows;
 
-        ListResponse(int count) {
+        ListResponse(User u, int count) {
+            super(u);
             this.count = count;
             this.rows = new ArrayList<>(count);
         }

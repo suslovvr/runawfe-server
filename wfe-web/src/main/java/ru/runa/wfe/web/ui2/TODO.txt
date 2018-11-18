@@ -1,7 +1,9 @@
 TODO Query string for JSP ???
 TODO Hash in hash (for tab controls) ???
 TODO Error page (#spa-error): main menu, server-side error logger + localized "server-side error NNNN" message, links "Retry" & "Go home" ???
+    Server-side error logging first requires cleaning exception subclasses mess.
 TODO Localization.
+    Server-side templates, I suppose.
 TODO IE.
 TODO Wiki, including:
     Restrictions on HTML pages and JS files: only title and links to JS / CSS files is accepted; body[onload].
@@ -13,8 +15,14 @@ TODO Wiki, including:
 TODO Authentication: currently done by old site, currentUser is rendered on server-side in JSP.
 TODO Move to REST API.
     But first, what about REST Authentication?
+    Then, current UI2 API requests should accept requested columns list (along with pagination, etc.)
+        On server side, this column list is best mapped to SQL column list, to minimize java-sql traffic too.
 TODO Should generate JSON without RAM usage, in a style of Apache wink-json4j.
     But first, this requires:
     1. Move to SQL (or upgrade Hibernate so it can return DB cursors instead of entity lists).
     2. Get rid of EjbTransactionalIntercetor in favour or Spring's @Transactional.
     3. Make web methods returning large JSONs (entity lists) @Transactional so open DB cursors may be passed to them.
+TODO Separate domain:  // https://stackoverflow.com/questions/4579484
+	either servlet filter
+	either custom @PropertySource  // https://coderwall.com/p/mm5ihw/how-to-add-custom-property-source-to-spring-s-environment
+TODO Can I manage left menu on client side somehow?

@@ -1,18 +1,20 @@
 var wfe = new function() {
 
     this.wait = function() {
+        $('#spa-body').hide();
+        $('#spa-error').hide();
         $('#spa-wait').show();
     };
     this.ready = function() {
-        $('#spa-body').show();
         $('#spa-error').hide();
         $('#spa-wait').hide();
+        $('#spa-body').show();
     };
     this.error = function(msg) {
-        $('#spa-error-msg').text(msg ? msg : "Ошибка при загрузке данных.");
         $('#spa-body').hide();
-        $('#spa-error').show();
         $('#spa-wait').hide();
+        $('#spa-error-msg').text(msg ? msg : "Ошибка при загрузке данных.");
+        $('#spa-error').show();
     };
 
     this.ajaxGetJson = function(url, onSuccess) {
@@ -67,7 +69,7 @@ wfe.spa = new function() {
             }
         }
 
-        // Page must not and cannot call gotoPage() before it's fully loaded.
+        // Page must not and can not call gotoPage() before it's fully loaded.
         // So if we're loading from cache, all JS and CSS files must already be loaded.
         var numFilesToWaitFor = 0;
         if (!fromCache) {

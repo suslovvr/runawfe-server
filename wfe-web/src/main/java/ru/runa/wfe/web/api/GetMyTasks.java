@@ -24,7 +24,7 @@ public class GetMyTasks extends Api<Api.EmptyRequest, Api.ListResponse<GetMyTask
     protected ListResponse<Row> execute(EmptyRequest form, HttpServletRequest hrq) {
         val user = Commons.getUser(hrq.getSession());
         val oo = Delegates.getTaskService().getMyTasks(user, null);
-        return new Api.ListResponse<Row>(oo.size()) {{
+        return new Api.ListResponse<Row>(user, oo.size()) {{
             for (WfTask o : oo) {
                 getRows().add(new Row() {{
                     id = o.getId();

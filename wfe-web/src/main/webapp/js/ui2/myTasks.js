@@ -2,11 +2,11 @@ wfe.myTasks = new function() {
 
     this.onLoad = function() {
         wfe.ajaxGetJson("getMyTasks", function(data) {
-            // TODO Need onUnload() to make Vue a class member.
             var app = new Vue({
-                el: ".content",
+                el: "#spa-body",
                 data: data
             });
+            // TODO Need onUnload() to make Vue a JS class member instead of destroying it instantly.
             app.$destroy();
         });
     }

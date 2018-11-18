@@ -21,7 +21,7 @@ public class GetProcessDefs extends Api<Api.EmptyRequest, Api.ListResponse<GetPr
     protected ListResponse<Row> execute(EmptyRequest form, HttpServletRequest hrq) {
         val user = Commons.getUser(hrq.getSession());
         val oo = Delegates.getDefinitionService().getProcessDefinitions(user, null, false);
-        return new ListResponse<Row>(oo.size()) {{
+        return new ListResponse<Row>(user, oo.size()) {{
             for (WfDefinition o : oo) {
                 getRows().add(new Row() {{
                     id = o.getId();
