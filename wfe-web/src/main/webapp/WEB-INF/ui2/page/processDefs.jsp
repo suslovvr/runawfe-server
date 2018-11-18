@@ -23,34 +23,12 @@
                 <td><a href="" title="Сортировка">Тип процесса</a></td>
                 <td>Описание / (Длинное описание)</td>
             </tr>
-            <tr>
+            <tr v-for="o in rows">
                 <td><input type="checkbox"/></td>
                 <td><img src="/wfe/images/ui2/ico/start1_dark.png" alt="Запустить" class="start"/></td>
-                <td>Оформление договора</td>
-                <td>Документы</td>
-                <td class="description">Оформление договора и его ведение и отслеживание на всех стадиях
-                    <div><!-- пока на hover, надо на click -->
-                        Пример 111 (пока на hover, надо на click)<p>Длинное описание</p><p>Длинное описание</p><p>Длинное описание</p><p>Длинное описание</p><p>Длинное описание</p><p>Длинное описание</p><p>Длинное описание</p>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td><input type="checkbox"/></td>
-                <td><img src="/wfe/images/ui2/ico/start1_dark.png" alt="Запустить" class="start"/></td>
-                <td>Оформление отпуска</td>
-                <td>Кадры</td>
-                <td>Какие документы и где нужны</td>
-            </tr>
-            <tr>
-                <td><input type="checkbox"/></td>
-                <td><img src="/wfe/images/ui2/ico/start1_dark.png" alt="Запустить" class="start"/></td>
-                <td>Приём на работу</td>
-                <td>Кадры</td>
-                <td class="description">Описание процесса
-                    <div><!-- пока на hover, надо на click -->
-                        Пример 333 (пока на hover, надо на click)<p>Длинное описание</p><p>Длинное описание</p><p>Длинное описание</p><p>Длинное описание</p><p>Длинное описание</p><p>Длинное описание</p><p>Длинное описание</p>
-                    </div>
-                </td>
+                <td>{{o.name}}</td>
+                <td>{{o.category}}</td>
+                <td class="description">{{o.description}}</td>
             </tr>
         </tbody></table>
     </tiles:put>

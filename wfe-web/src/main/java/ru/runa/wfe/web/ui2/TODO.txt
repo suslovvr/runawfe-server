@@ -1,12 +1,15 @@
 TODO Query string for JSP ???
 TODO Hash in hash (for tab controls) ???
-TODO Error page (#spa-error): main menu, informative error message, links "Retry" & "Go home" ???
+TODO Error page (#spa-error): main menu, server-side error logger + localized "server-side error NNNN" message, links "Retry" & "Go home" ???
 TODO Localization.
 TODO IE.
 TODO Wiki, including:
     Restrictions on HTML pages and JS files: only title and links to JS / CSS files is accepted; body[onload].
     How it works: cumulative JS & CSS into main body.
     For speed and low traffic, don't user browser's refresh unless re-login.
+    onLoad() must call wfe.wait() if it does ajax request(s), and always must call wfe.ready() (or wfe.error() if ajax fails)
+        because wfe.wait() is called by SPA on first page access without subsequent wfe.ready().
+        This is done in wfe.ajaxGetJson() helper.
 TODO Authentication: currently done by old site, currentUser is rendered on server-side in JSP.
 TODO Move to REST API.
     But first, what about REST Authentication?

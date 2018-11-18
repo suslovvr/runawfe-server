@@ -15,7 +15,7 @@
         <table id="spa-wait"><tr><td>Пожалуйста, подождите...</td></tr></table>
         <div id="spa-error">
             <h1>Ошибка</h1>
-            <p>Ошибка при загрузке запрошенной страницы.</p>
+            <p id="spa-error-msg"></p>
         </div>
         <div id="spa-body"></div>
     </body>

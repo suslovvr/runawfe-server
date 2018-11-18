@@ -1,4 +1,5 @@
 var wfe = new function() {
+
     this.wait = function() {
         $('#spa-wait').show();
     };
@@ -7,17 +8,37 @@ var wfe = new function() {
         $('#spa-error').hide();
         $('#spa-wait').hide();
     };
-    this.error = function() {
+    this.error = function(msg) {
+        $('#spa-error-msg').text(msg ? msg : "Ошибка при загрузке данных.");
         $('#spa-body').hide();
         $('#spa-error').show();
         $('#spa-wait').hide();
     };
+
+    this.ajaxGetJson = function(url, onSuccess) {
+        wfe.wait();
+        $.ajax({
+            url: "/wfe/api/" + url,
+            dataType: "json",
+            success: function(json) {
+                if (json.error) {
+                    wfe.error(json.error);
+                } else {
+                    onSuccess(json.data);
+                    wfe.ready();
+                }
+            },
+            error: function() {
+                wfe.error();
+            }
+        });
+    }
 };
 
 wfe.spa = new function() {
     var self = this;
     var whenStartedString;
-    var defaultUrl = "/tasks";
+    var defaultUrl = "/myTasks";
     var titleSuffix = document.title;
     var attachedScriptsAndStyles = {};
     var cachedHtmls = {};

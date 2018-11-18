@@ -828,8 +828,8 @@
 		<!-- UIv2 -->
 		<action path="/ui2" type="org.apache.struts.actions.ForwardAction" parameter="/WEB-INF/ui2/redirectAddSlash.jsp" />
 		<action path="/ui2/" type="org.apache.struts.actions.ForwardAction" parameter="/WEB-INF/ui2/spa.jsp" />
+		<action path="/ui2/myTasks" type="org.apache.struts.actions.ForwardAction" parameter="/WEB-INF/ui2/page/myTasks.jsp" />
 		<action path="/ui2/processDefs" type="org.apache.struts.actions.ForwardAction" parameter="/WEB-INF/ui2/page/processDefs.jsp" />
-		<action path="/ui2/tasks" type="org.apache.struts.actions.ForwardAction" parameter="/WEB-INF/ui2/page/myTasks.jsp" />
 
 		<!-- UIv2 API -->
 		<!--action path="/api/getMyTasks" type="ru.runa.wfe.web.api.GetMyTasks" name="ui2ApiEmptyForm" scope="request" validate="false"/-->
