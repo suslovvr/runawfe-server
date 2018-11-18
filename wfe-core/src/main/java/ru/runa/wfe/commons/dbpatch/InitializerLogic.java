@@ -17,9 +17,12 @@
  */
 package ru.runa.wfe.commons.dbpatch;
 
+import com.google.common.base.Preconditions;
 import com.google.common.base.Throwables;
 import com.google.common.collect.Lists;
+import java.text.SimpleDateFormat;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -157,6 +160,8 @@ public class InitializerLogic implements ApplicationListener<ContextRefreshedEve
         dbPatches = Collections.unmodifiableList(patches);
     }
 
+    private static String whenStartedString = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
         try {
@@ -181,6 +186,13 @@ public class InitializerLogic implements ApplicationListener<ContextRefreshedEve
         } catch (Exception e) {
             Throwables.propagate(e);
         }
+    }
+
+    /**
+     * For use as static content URLs suffix instead of Version.getHash() which is bad for debugging.
+     */
+    public static String getWhenStartedString() {
+        return whenStartedString;
     }
 
     /**

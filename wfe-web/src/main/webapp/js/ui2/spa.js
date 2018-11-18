@@ -1,16 +1,11 @@
+// TODO Query string for JSP.
+// TODO Hash in hash.
 // TODO Error page (#spa-error): main menu, links "Retry" & "Go home".
 // TODO Localization.
 // TODO IE.
 // TODO Wiki, incl. restrictions on HTML pages and JS files; cumulative JS & CSS includes.
 
-var wfeSpa = new function() {
-    var self = this;
-    var versionHash;
-    var defaultUrl = "/tasks";
-    var titleSuffix = document.title;
-    var attachedScriptsAndStyles = {};
-    var cachedHtmls = {};
-
+var wfe = new function() {
     this.wait = function() {
         $('#spa-wait').show();
     };
@@ -24,6 +19,15 @@ var wfeSpa = new function() {
         $('#spa-error').show();
         $('#spa-wait').hide();
     };
+};
+
+wfe.spa = new function() {
+    var self = this;
+    var whenStartedString;
+    var defaultUrl = "/tasks";
+    var titleSuffix = document.title;
+    var attachedScriptsAndStyles = {};
+    var cachedHtmls = {};
 
     function showPage(html, fromCache) {
         // Prevent loss of <html>, <head>, <body> tags; https://stackoverflow.com/a/10585079/4247442
@@ -38,13 +42,14 @@ var wfeSpa = new function() {
         $("#spa-body").empty().append(qBody.contents().clone());
 
         // HTML can include JS & CSS files in <head>, inline JS in body, and body/@onload attribute.
+        // JS files cannot contain $(function) since they are loaded only once.
         function onPageLoaded() {
             var onload = qBody.attr('onload');
             if (onload) {
-                // It must call wfeSpa.wait() if it performs ajax requests; and always -- wfeSpa.ready() or wfeSpa.error().
+                // It must call wfe.wait() if it performs ajax requests; and always -- wfe.ready() or wfe.error().
                 eval(onload);
             } else {
-                self.ready();
+                wfe.ready();
             }
         }
 
@@ -58,13 +63,11 @@ var wfeSpa = new function() {
                 }
             }
 
-            // Inline scripts & styles are ignored; JS files cannot contain $(function) since they are loaded only once.
-            // So see onPageLoaded() above.
+            // Inline scripts & styles are ignored in <head>.
             qHtml.find("head script[type='text/javascript'][src], head link[rel='stylesheet'][type='text/css'][href]").each(function () {
                 var isScript = this.tagName === 'SCRIPT';
                 var attrName = isScript ? 'src' : 'href';
-                var q = $(this);
-                var fileUrl = q.attr(attrName);
+                var fileUrl = this.getAttribute(attrName);
                 if (!attachedScriptsAndStyles[fileUrl]) {
                     attachedScriptsAndStyles[fileUrl] = true;
                     numFilesToWaitFor++;
@@ -74,12 +77,11 @@ var wfeSpa = new function() {
                     e.onload = onFileLoaded;
                     if (isScript) {
                         e.setAttribute('type', 'text/javascript');
-                        e.setAttribute('src', fileUrl);
                     } else {
                         e.setAttribute('rel', 'stylesheet');
                         e.setAttribute('type', 'text/css');
-                        e.setAttribute('href', fileUrl);
                     }
+                    e.setAttribute(attrName, fileUrl + "?" + whenStartedString);
                     document.head.appendChild(e);
                 }
             });
@@ -96,16 +98,12 @@ var wfeSpa = new function() {
             return;
         }
 
-        var url = hash.substr(1);
-        if (url.endsWith("/")) {
-            url += "index";
-        }
-        url = "/wfe/html/ui2" + url + ".html?" + versionHash;
+        var url = "/wfe/ui2" + hash.substr(1) + "?" + whenStartedString;
 
         if (cachedHtmls[url]) {
             showPage(cachedHtmls[url], true);
         } else {
-            self.wait();
+            wfe.wait();
             $.ajax({
                 url: url,
                 dataType: "html",
@@ -114,7 +112,7 @@ var wfeSpa = new function() {
                     showPage(html, false);
                 },
                 error: function() {
-                    self.error();
+                    wfe.error();
                 }
             });
         }
@@ -130,9 +128,9 @@ var wfeSpa = new function() {
         }
     };
 
-    this.init = function(versionHash_) {
-        versionHash = versionHash_;
+    this.onLoad = function(wss) {
+        whenStartedString = wss;
         $(window).on("hashchange", onHashChange);
-        wfeSpa.gotoUrl(defaultUrl);
+        wfe.spa.gotoUrl(defaultUrl);
     }
 };

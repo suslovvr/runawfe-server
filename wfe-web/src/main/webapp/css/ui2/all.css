@@ -1,0 +1,255 @@
+* {
+    font-family: Arial, Helvetica, sans-serif;
+}
+body, #spa-wait, #spa-body, #spa-error {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #aeccd6;
+    color: #233c45;
+}
+#spa-wait {
+    position: fixed;
+    z-index: 1000;
+    background-color: white;
+    opacity: 0.7;
+}
+#spa-wait td {
+    text-align: center;
+    vertical-align: middle;
+    font-size: 32px;
+}
+#spa-body {
+    display: none;
+}
+#spa-error {
+    padding: 20px 40px;
+    display: none;
+}
+
+
+.topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 50px;
+    border-radius: 5px 5px 0 0;
+    width: 100%;
+    min-width: 600px;
+    z-index: 99999;
+}
+.topbarwrap {
+    height: 50px;
+    width: 100%;
+    background-color: #ffffff;
+}
+.leftmenuback {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: -120px;
+    z-index: 1;
+    width: 88px;
+}
+.leftmenuwrap {
+    position: fixed;
+    top: 120px;
+    width: 88px;
+}
+.leftmenuwrap div {
+    width: 100%;
+    text-align: center;
+}
+.leftmenuwrap img {
+    margin-bottom: 8px;
+    margin-top: 8px;
+    /* filter: hue-rotate(180deg); */
+    cursor: pointer;
+}
+.leftmenuwrap img:hover {
+    /*filter: hue-rotate(280deg);*/
+    filter: brightness(30);
+}
+.active {
+    background: url(../../images/ui2/ico/selected.png) no-repeat right;
+}
+.active img {
+    filter: brightness(3) saturate(0) hue-rotate(90deg); 
+    cursor: auto !important;
+    background: none;
+}
+.leftmenuwrap img.sel:hover {
+    filter: none;
+}
+.content {
+    margin: 15px 0 0 0;
+    height: auto;
+    width: 100%;
+}
+.contentback {
+    background-color: #ffffff;
+    margin: 95px 20px 0 108px;
+    border-radius: 15px;
+    height: auto;
+    padding: 0 0 40px 0;
+}
+.contentback p, .contentback td {
+    color: #233c45;
+}
+.topmenuwrap {
+    position: fixed;
+    height: 50px;
+    text-align: right;
+    right: 20px;    
+    top: 20px;
+}
+.topmenuwrap img {
+    border-radius: 50%;
+    height: 100%;
+    width: auto;
+    float: right;
+    border: 1px solid #f1efef;
+    margin-left: 20px;
+}
+.topmenuwrap span {
+    display: inline-block; 
+    height: 50px;
+    line-height: 50px;
+}
+.pagename {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin: 0;
+    padding: 40px;
+}
+.work {
+    border: 0;
+    border-spacing: 0;
+    width: 100%;
+    padding: 20px 40px 20px 20px;
+}
+.work tr:nth-child(1) {
+    background-color: #ffffff !important;
+}
+.work tr:nth-child(1) td {
+    text-align: center;
+    vertical-align: middle;
+}
+.work td {
+    height: 45px;
+    border-bottom: 1px solid #f1efef;
+    padding-left: 10px;
+    padding-right: 2px;
+    vertical-align: middle;
+}
+.work tr td:nth-child(1) {
+    width: 40px;
+    text-align: center;
+}
+.task td:nth-child(2) {
+    width: 30%;
+    cursor: pointer;
+}
+.task td:nth-child(2):hover {
+    text-decoration: underline;
+}
+.task td:nth-child(5) {
+    width: 5%;
+    text-align: center;
+}
+.act {
+    text-align: right;
+    padding: 20px 40px 20px 20px;
+}
+.button {
+    background-color: #f0f6f9;
+    color: #233c45;
+    border-radius: 5px;
+    box-sizing: border-box;
+    margin: 10px;
+    padding: 10px;
+    text-decoration: none;
+    font-weight: bold;
+}
+.def td:nth-child(2) {
+    width: 7%;
+    text-align: center;
+}
+.def td:nth-child(3):hover {
+    text-decoration: underline;
+}
+.def td:nth-child(3) {
+    width: 20%;
+    cursor: pointer;
+}
+.def td:nth-child(4) {
+    width: 15%;
+}
+.description div {
+    position: absolute;
+    border: solid 1px #f1efef;
+    background-color: #ffffff;
+    width: 40%;
+    margin: 5px;
+    padding: 10px;
+    display: none;
+}
+.description:hover > div {
+    display: block;
+}
+.start {
+    /* background: url(../../images/ui2/ico/start1.png); */
+    border-radius: 50%;
+    border: 2px solid #5f94a7;
+    width: 24px;
+    cursor: pointer;
+}
+.start:hover {
+    filter: brightness(30);
+}
+#leftsizechange {
+    border-radius: 50%;
+    border: 2px solid #233c45;
+}
+.filters {
+    float: right;
+    cursor: pointer;
+}
+.filters img {
+    width: 35px;
+    height: 35px;
+    margin-right: 50px; 
+    margin-top: 38px;
+}
+.filters > div {
+    position: absolute;
+    border: solid 1px #f1efef;
+    background-color: #ffffff;
+    width: 200px;
+    margin: 5px;
+    padding: 10px;
+    display: none;
+    right: 10px;
+} 
+.filters:hover > div {
+    display: block;
+} 
+.leftmenuback {
+    background-color: #5f93a8;
+}
+.topbar {
+    background-color: #e9e9e9;
+}
+.work tr:nth-child(odd) {
+    background-color: #f0f6f9;
+}
+.work tr:hover {
+    background-color: #aeccd6;
+}
+.ico_dark {
+    color: #233c45;
+}
+.topmenuwrap span {
+    color: #233c45;
+}

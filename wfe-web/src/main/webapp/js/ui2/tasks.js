@@ -1,6 +1,6 @@
-var wfeTasks = new function() {
-    this.init = function() {
-        alert("wfeTasks.init() called");
-        wfeSpa.ready();
+wfe.tasks = new function() {
+    this.onLoad = function() {
+        // alert("wfeTasks.init() called");
+        wfe.ready();
     }
 };
