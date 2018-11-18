@@ -30,7 +30,7 @@
                 <td>{{o.name}}</td>
                 <td class="description">{{o.description}}</td>
                 <td>{{o.definitionName}}</td>
-                <td>{{o.id}</td>
+                <td>{{o.id}}</td>
                 <td>{{o.creationDate}}</td>
                 <td>{{o.deadlineDate}}</td>
             </tr>

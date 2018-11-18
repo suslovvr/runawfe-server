@@ -145,6 +145,6 @@ wfe.spa = new function() {
     this.onLoad = function(wss) {
         whenStartedString = wss;
         $(window).on("hashchange", onHashChange);
-        wfe.spa.gotoUrl(defaultUrl);
+        onHashChange();
     }
 };

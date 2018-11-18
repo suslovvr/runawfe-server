@@ -133,7 +133,6 @@ body, #spa-wait, #spa-body, #spa-error {
     background-color: #ffffff !important;
 }
 .work tr:nth-child(1) td {
-    text-align: center;
     vertical-align: middle;
 }
 .work td {

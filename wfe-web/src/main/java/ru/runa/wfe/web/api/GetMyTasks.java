@@ -31,8 +31,8 @@ public class GetMyTasks extends Api<Api.EmptyRequest, Api.ListResponse<GetMyTask
                     name = o.getName();
                     description = o.getDescription();
                     definitionName = o.getDefinitionName();
-                    creationDate = CalendarUtil.formatDate(o.getCreationDate());
-                    deadlineDate = CalendarUtil.formatDate(o.getDeadlineDate());
+                    creationDate = CalendarUtil.formatDateTime(o.getCreationDate());
+                    deadlineDate = CalendarUtil.formatDateTime(o.getDeadlineDate());
                 }});
             }
         }};
