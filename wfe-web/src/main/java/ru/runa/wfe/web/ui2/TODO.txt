@@ -27,3 +27,6 @@ TODO Separate domain:  // https://stackoverflow.com/questions/4579484
 	either servlet filter
 	either custom @PropertySource  // https://coderwall.com/p/mm5ihw/how-to-add-custom-property-source-to-spring-s-environment
 TODO Can I manage left menu on client side somehow?
+    The problem is that there may be more than 1 page layout.
+    Looks like currently it's ok: main menu selected item is property of current PAGE, not it's DATA;
+    so it's rendered on server side along page.
