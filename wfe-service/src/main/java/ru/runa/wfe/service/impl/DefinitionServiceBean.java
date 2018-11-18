@@ -141,8 +141,11 @@ public class DefinitionServiceBean implements DefinitionServiceLocal, Definition
 
     @Override
     @WebResult(name = "result")
-    public List<WfDefinition> getProcessDefinitions(@WebParam(name = "user") @NonNull User user,
-            @WebParam(name = "batchPresentation") BatchPresentation batchPresentation, @WebParam(name = "enablePaging") boolean enablePaging) {
+    public List<WfDefinition> getProcessDefinitions(
+            @WebParam(name = "user") @NonNull User user,
+            @WebParam(name = "batchPresentation") BatchPresentation batchPresentation,
+            @WebParam(name = "enablePaging") boolean enablePaging
+    ) {
         if (batchPresentation == null) {
             batchPresentation = BatchPresentationFactory.DEFINITIONS.createDefault();
         }
@@ -151,8 +154,10 @@ public class DefinitionServiceBean implements DefinitionServiceLocal, Definition
 
     @Override
     @WebResult(name = "result")
-    public int getProcessDefinitionsCount(@WebParam(name = "user") @NonNull User user,
-            @WebParam(name = "batchPresentation") BatchPresentation batchPresentation) {
+    public int getProcessDefinitionsCount(
+            @WebParam(name = "user") @NonNull User user,
+            @WebParam(name = "batchPresentation") BatchPresentation batchPresentation
+    ) {
         if (batchPresentation == null) {
             batchPresentation = BatchPresentationFactory.DEFINITIONS.createDefault();
         }
@@ -161,8 +166,11 @@ public class DefinitionServiceBean implements DefinitionServiceLocal, Definition
 
     @Override
     @WebResult(name = "result")
-    public void undeployProcessDefinition(@WebParam(name = "user") @NonNull User user,
-            @WebParam(name = "definitionName") @NonNull String definitionName, @WebParam(name = "version") Long version) {
+    public void undeployProcessDefinition(
+            @WebParam(name = "user") @NonNull User user,
+            @WebParam(name = "definitionName") @NonNull String definitionName,
+            @WebParam(name = "version") Long version
+    ) {
         definitionLogic.undeployProcessDefinition(user, definitionName, version);
     }
 

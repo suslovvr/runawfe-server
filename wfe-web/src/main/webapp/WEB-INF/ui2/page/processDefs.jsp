@@ -15,8 +15,7 @@
             </div>
         </div>
         <p class="pagename">Определение процессов</p>
-        <table class="work def">
-            <tbody>
+        <table class="work def"><tbody>
             <tr>
                 <td><input type="checkbox"/></td>
                 <td>Запустить</td>
@@ -53,7 +52,6 @@
                     </div>
                 </td>
             </tr>
-            </tbody>
-        </table>
+        </tbody></table>
     </tiles:put>
 </tiles:insert>

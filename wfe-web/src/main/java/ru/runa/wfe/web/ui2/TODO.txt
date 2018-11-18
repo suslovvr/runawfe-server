@@ -1,0 +1,17 @@
+TODO Query string for JSP ???
+TODO Hash in hash (for tab controls) ???
+TODO Error page (#spa-error): main menu, informative error message, links "Retry" & "Go home" ???
+TODO Localization.
+TODO IE.
+TODO Wiki, including:
+    Restrictions on HTML pages and JS files: only title and links to JS / CSS files is accepted; body[onload].
+    How it works: cumulative JS & CSS into main body.
+    For speed and low traffic, don't user browser's refresh unless re-login.
+TODO Authentication: currently done by old site, currentUser is rendered on server-side in JSP.
+TODO Move to REST API.
+    But first, what about REST Authentication?
+TODO Should generate JSON without RAM usage, in a style of Apache wink-json4j.
+    But first, this requires:
+    1. Move to SQL (or upgrade Hibernate so it can return DB cursors instead of entity lists).
+    2. Get rid of EjbTransactionalIntercetor in favour or Spring's @Transactional.
+    3. Make web methods returning large JSONs (entity lists) @Transactional so open DB cursors may be passed to them.

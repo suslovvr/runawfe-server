@@ -1,10 +1,3 @@
-// TODO Query string for JSP.
-// TODO Hash in hash.
-// TODO Error page (#spa-error): main menu, links "Retry" & "Go home".
-// TODO Localization.
-// TODO IE.
-// TODO Wiki, incl. restrictions on HTML pages and JS files; cumulative JS & CSS includes.
-
 var wfe = new function() {
     this.wait = function() {
         $('#spa-wait').show();

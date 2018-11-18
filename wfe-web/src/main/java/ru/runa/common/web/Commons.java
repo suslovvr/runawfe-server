@@ -238,8 +238,12 @@ public class Commons {
         session.removeAttribute(LOGGED_USER_ATTRIBUTE_NAME);
     }
 
+    public static User getUserOrNull(HttpSession session) {
+        return (User) getSessionAttribute(session, LOGGED_USER_ATTRIBUTE_NAME);
+    }
+
     public static User getUser(HttpSession session) {
-        User user = (User) getSessionAttribute(session, LOGGED_USER_ATTRIBUTE_NAME);
+        User user = getUserOrNull(session);
         if (user == null) {
             throw new InvalidSessionException("Session does not contain subject.");
         }

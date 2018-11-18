@@ -1,4 +1,5 @@
-<%@ page pageEncoding="UTF-8" %>
+    <%@ page import="ru.runa.common.web.Commons" %>
+        <%@ page pageEncoding="UTF-8" %>
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
 <%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
 <html:html>
@@ -7,13 +8,13 @@
     <head>
         <tiles:insert attribute="head" ignore="true"/>
     </head>
-    <body onload="<%=onload%>">
+    <body onload="<%= onload %>">
         <div class="content"><div class="contentback">
             <tiles:insert attribute="content" ignore="true"/>
         </div></div>
         <div class="leftmenuback"><div class="leftmenuwrap">
             <div class="<%= "tasks".equals(mm) ? "active" : "" %>">
-                <img src="/wfe/images/ui2/ico/mainMenu/tasks.png" alt="Мои задачи" title="Мои задачи" onclick="wfe.spa.gotoUrl('/tasks')"/>
+                <img src="/wfe/images/ui2/ico/mainMenu/myTasks.png" alt="Мои задачи" title="Мои задачи" onclick="wfe.spa.gotoUrl('/myTasks')"/>
             </div>
             <div class="<%= "processDefs".equals(mm) ? "active" : "" %>">
                 <img src="/wfe/images/ui2/ico/mainMenu/processDefs.png" alt="Запустить процесс" title="Запустить процесс" onclick="wfe.spa.gotoUrl('/processDefs')"/>
@@ -29,7 +30,7 @@
         </div></div>
         <div class="topmenuwrap">
             <img src="/wfe/images/ui2/ico/user.png" />
-            <span>Имя пользователя</span>
+            <span><%= Commons.getUser(pageContext.getSession()).getName() %></span>
         </div>
     </body>
 </html:html>

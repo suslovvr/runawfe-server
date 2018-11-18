@@ -1,11 +1,11 @@
 <%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
 <%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
 <tiles:insert page="/WEB-INF/ui2/layout/main.jsp" flush="true">
-    <tiles:put name="onload" value="wfe.tasks.onLoad()"/>
-    <tiles:put name="mainMenuActiveItem" value="tasks"/>
+    <tiles:put name="onload" value="wfe.myTasks.onLoad()"/>
+    <tiles:put name="mainMenuActiveItem" value="myTasks"/>
     <tiles:put name="head" type="string">
         <title>Задачи</title>
-        <script type="text/javascript" src="/wfe/js/ui2/tasks.js"></script>
+        <script type="text/javascript" src="/wfe/js/ui2/myTasks.js"></script>
     </tiles:put>
     <tiles:put name="content" type="string">
         <div class="filters">
