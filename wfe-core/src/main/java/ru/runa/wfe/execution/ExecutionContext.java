@@ -386,9 +386,11 @@ public class ExecutionContext {
             }
             log.debug("Updating variable '" + variableDefinition.getName() + "' in '" + getProcess() + "' to '" + value + "'"
                     + (value != null ? " of " + value.getClass() : ""));
-            Object oldValue = variable.getValue();
             resultingVariableLog = variable.setValue(this, value, variableDefinition);
-            updateMessageSelectorIfExists(variable, token.getProcess(), oldValue);
+            if (!(variable.getStorableValue() instanceof byte[])) {
+                Object oldValue = variable.getValue();
+                updateMessageSelectorIfExists(variable, token.getProcess(), oldValue);
+            }
             VariableDefinition syncVariableDefinition = subprocessSyncCache.getParentProcessSyncVariableDefinition(
                     token.getProcess(), variableDefinition
             );
