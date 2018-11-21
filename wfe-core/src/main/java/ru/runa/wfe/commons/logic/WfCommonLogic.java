@@ -110,7 +110,7 @@ public class WfCommonLogic extends CommonLogic {
         Interaction interaction = parsedProcessDefinition.getInteractionNotNull(nodeId);
         if (interaction.getValidationData() != null) {
             ValidatorContext context = ValidatorManager.getInstance().validate(user, executionContext, variableProvider,
-                    interaction.getValidationData(), variables);
+                    interaction.getValidationData(), interaction.getVariables(), variables);
             if (context.hasGlobalErrors() || context.hasFieldErrors()) {
                 throw new ValidationException(context.getFieldErrors(), context.getGlobalErrors());
             }

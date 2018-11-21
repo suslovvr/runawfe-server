@@ -4,7 +4,9 @@ import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import java.util.List;
+import java.util.Map;
 import lombok.extern.apachecommons.CommonsLog;
 import org.dom4j.Document;
 import org.dom4j.Element;
@@ -16,6 +18,7 @@ import ru.runa.wfe.commons.dao.LocalizationDao;
 import ru.runa.wfe.commons.xml.XmlUtils;
 import ru.runa.wfe.definition.FileDataProvider;
 import ru.runa.wfe.lang.ParsedProcessDefinition;
+import ru.runa.wfe.validation.ValidatorConfig;
 import ru.runa.wfe.var.UserType;
 import ru.runa.wfe.var.VariableDefinition;
 import ru.runa.wfe.var.VariableStoreType;
@@ -35,6 +38,10 @@ public class VariableDefinitionParser implements ProcessArchiveParser {
     private static final String USER_TYPE = "usertype";
     private static final String DESCRIPTION = "description";
     private static final String STORE_TYPE = "storeType";
+    private static final String VALIDATOR = "validator";
+    private static final String TYPE = "type";
+    private static final String MESSAGE = "message";
+    private static final String PARAM = "param";
 
     @Autowired
     private LocalizationDao localizationDao;
@@ -120,6 +127,20 @@ public class VariableDefinitionParser implements ProcessArchiveParser {
         }
         variableDefinition.initComponentUserTypes(parsedProcessDefinition);
         variableDefinition.setPublicAccess(Boolean.parseBoolean(element.attributeValue(PUBLIC, "false")));
+        List<Element> validatorElements = element.elements(VALIDATOR);
+        Map<String, ValidatorConfig> validators = Maps.newHashMap();
+        if (validatorElements != null) {
+            for (Element validatorElement : validatorElements) {
+                String validatorType = validatorElement.attributeValue(TYPE);
+                String validatorMessage = validatorElement.element(MESSAGE).getText();
+                Map<String, String> validatorParams = Maps.newHashMap();
+                for (Element validatorParamElement : (List<Element>)validatorElement.elements(PARAM)) {
+                    validatorParams.put(validatorParamElement.attributeValue(NAME), validatorParamElement.getText());
+                }
+                validators.put(validatorType, new ValidatorConfig(validatorType, validatorMessage, validatorParams));
+            }
+        }
+        variableDefinition.setValidators(validators);
         variableDefinition.setDefaultValue(element.attributeValue(DEFAULT_VALUE));
         String storeTypeString = element.attributeValue(STORE_TYPE);
         if (!Strings.isNullOrEmpty(storeTypeString)) {
