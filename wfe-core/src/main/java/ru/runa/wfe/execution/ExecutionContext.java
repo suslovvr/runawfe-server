@@ -286,7 +286,7 @@ public class ExecutionContext {
         Preconditions.checkNotNull(variableDefinition, "variableDefinition");
         ValidatorManager validatorManager = ValidatorManager.getInstance();
         ValidatorContext validatorContext = validatorManager.validateVariable(UserHolder.get(), this, getVariableProvider(), variableDefinition.getName(), value);
-        if (validatorContext.hasGlobalErrors() || validatorContext.hasFieldErrors()) {
+        if (validatorContext != null && (validatorContext.hasGlobalErrors() || validatorContext.hasFieldErrors())) {
             throw new ValidationException(validatorContext.getFieldErrors(), validatorContext.getGlobalErrors());
         }
         switch (variableDefinition.getStoreType()) {

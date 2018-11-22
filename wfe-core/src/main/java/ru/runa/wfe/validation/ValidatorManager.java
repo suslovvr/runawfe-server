@@ -13,8 +13,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import lombok.extern.apachecommons.CommonsLog;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import ru.runa.wfe.InternalApplicationException;
@@ -117,8 +115,11 @@ public class ValidatorManager {
     
     public ValidatorContext validateVariable(User user, ExecutionContext executionContext, VariableProvider variableProvider,
             String variableName, Object value) {
-        ValidatorContext validatorContext = new ValidatorContext();
         Map<String, ValidatorConfig> validatorConfigs = variableProvider.getVariableNotNull(variableName).getDefinition().getValidators();
+        if (validatorConfigs == null) {
+            return null;
+        }
+        ValidatorContext validatorContext = new ValidatorContext();
         Map<String, Object> variable = Maps.newHashMap();
         variable.put(variableName, value);
         List<Validator> validators = createValidatorsFromValidatorConfigs(user, executionContext, variableProvider, validatorContext, variable, validatorConfigs, variableName);
