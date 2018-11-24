@@ -11,8 +11,9 @@ How to study:
 
 1. Look through documentation below in this file; it will take 2 minutes.
 
-2. Set a breakpoint on Servlet.service() and go through stepping into each call (except configuration.requestParameterParser.parse()
-   which you better step over, at least for the first time) until RequestHandler is called; it will take another 2 minutes.
+2. Set a breakpoint on Servlet.service() and go through stepping into each call
+   (except configuration.requestParameterParser.parse() which you better step over, at least for the first time)
+   until RequestHandler is called; it will take another 2 minutes.
 
 
 Core:
@@ -26,7 +27,7 @@ Core:
 - class RequestHandler is abstract base class for all request handlers.
   See package ../extra for some useful subclasses.
 
-- subclass of UriToHandlerMapping maps HttpServletRequest.getPathInfo() to RequestHandler instances, and collects path parameters along.
+- subclass of UriToHandlerMapping maps request URI to RequestHandler instances, collecting path parameters along.
   I assume it's to be done by splitting URI to components (by '/' char) and doing nested switch() on each component;
   there is a helper class UriToHandlerMapping.PathComponents for that. Path parameters can only occupy whole component.
 
