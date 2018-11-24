@@ -27,7 +27,7 @@ import org.apache.commons.lang.StringUtils;
  * Target class (and in case of compound parameter names, classes of its fields, recursively):
  * <ul>
  *     <li>Must have default constructor.
- *     <li>Fields must be public; they are accessed directly (setters are not used) and I don't want to , .
+ *     <li>Fields must be public; they are accessed directly (setters are not used) and I don't want to deal with setAccessible(true).
  *     <li>For param name parts with indexes, only ArrayList and HashMap fields are supported.
  *         For ArrayHist, only non-negative integer indexes are supported. Gaps are allowed, missing elements are filled with nulls.
  *         For HashMap, key must be non-generic type supported by {@link #convertValueToType(String, Type)}.
@@ -37,7 +37,7 @@ import org.apache.commons.lang.StringUtils;
  *
  * NOTE: I could use commons-beanutils, but it looks far too complex for my needs; and as of version 1.8.3 currently
  * used by wfe, all custom mappers are registered globally, so I'm afraid to break something by configuring it to my needs.
- * I also could use Jackson, but that requires creating intermediate Map which is inefficient.
+ * I also could use Jackson, but that requires creating intermediate Map which is inefficient and still requires much code on my side.
  * Anyway, current implementation is simple enough to bother searching for (surely more complex) third-party alternatives.
  *
  * @see ServletConfiguration
