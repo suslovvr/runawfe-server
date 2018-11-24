@@ -57,6 +57,8 @@ public abstract class UriToHandlerMapper {
      *
      * @param uri Not null. Combined values of HttpServletRequest.getServletPath() and getPathInfo(). "/" for root URI.
      * @param pathParams Not null. Output parameter: here implementation must store path parameters it encounters during URI parsing.
+     * @return NUll means error 404.
+     * @throws Exception Means error 400.
      */
     protected abstract RequestHandler createHandler(RequestMethod method, String uri, HashMap<String, String> pathParams) throws Exception;
 }

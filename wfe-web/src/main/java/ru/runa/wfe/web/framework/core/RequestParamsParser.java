@@ -46,8 +46,10 @@ import org.apache.commons.lang.StringUtils;
  */
 public class RequestParamsParser {
 
-    @SneakyThrows
-    final <C> C parse(Map<String, String> pathParams, Map<String, String[]> requestParams, Class<C> targetClass) {
+    /**
+     * @throws Exception Means error 400.
+     */
+    final <C> C parse(Map<String, String> pathParams, Map<String, String[]> requestParams, Class<C> targetClass) throws Exception {
         C o = targetClass.newInstance();
         for (val kv : pathParams.entrySet()) {
             setFieldValue(o, kv.getKey(), new String[] { kv.getValue() });
