@@ -2,6 +2,7 @@ package ru.runa.wfe.web.framework.core;
 
 import java.net.URLDecoder;
 import java.util.HashMap;
+import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 
 /**
@@ -61,4 +62,20 @@ public abstract class UriToHandlerMapper {
      * @throws Exception Means error 400.
      */
     protected abstract RequestHandler createHandler(RequestMethod method, String uri, HashMap<String, String> pathParams) throws Exception;
+
+    /**
+     * Default implementation returns DefaultErrorHandler.
+     *
+     * @param hrq Provided for request headers analysis (Accept, etc.).
+     * @param status May be 400, 404, 500.
+     * @return Must be non-null.
+     *         Must take no params; should extend {@code RequestHandler<Object>}.
+     *         Neither {@link RequestHandler#requestMethod} nor {@link RequestHandler#params} members will be filled by framework.
+     *         Should pass null to RequestHandler's {@code acceptMethods} constructor, it will be ignored anyway.
+     * @throws Exception Will be ignored.
+     */
+    @SuppressWarnings({"unused", "RedundantThrows", "WeakerAccess"})
+    protected RequestHandler createErrorHandler(HttpServletRequest hrq, int status) throws Exception {
+        return new DefaultErrorHandler(status);
+    }
 }

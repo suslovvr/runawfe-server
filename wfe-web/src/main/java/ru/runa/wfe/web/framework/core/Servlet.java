@@ -35,7 +35,7 @@ public class Servlet extends HttpServlet {
 
     @Override
     protected void service(HttpServletRequest hrq, HttpServletResponse hre) {
-        RequestMethod method;
+        RequestMethod method = null;
         RequestHandler handler;
         try {
             method = RequestMethod.valueOf(hrq.getMethod());
@@ -43,7 +43,7 @@ public class Servlet extends HttpServlet {
             val pathParams = new HashMap<String, String>();
             handler = configuration.uriToHandlerMapper.createHandler(method, uri, pathParams);
             if (handler == null) {
-                sendError(hre, HttpServletResponse.SC_NOT_FOUND);
+                sendError(hrq, hre, HttpServletResponse.SC_NOT_FOUND);
                 return;
             }
             if (!handler.acceptMethods.contains(method)) {
@@ -54,7 +54,7 @@ public class Servlet extends HttpServlet {
             handler.params = configuration.requestParamsParser.parse(pathParams, hrq.getParameterMap(), handler.paramsClass);
         } catch (Throwable e) {
             log.error("Request dispatcher or parameter parser failed, responding error 400", e);
-            sendError(hre, HttpServletResponse.SC_BAD_REQUEST);
+            sendError(hrq, hre, HttpServletResponse.SC_BAD_REQUEST);
             return;
         }
 
@@ -66,7 +66,7 @@ public class Servlet extends HttpServlet {
             hre.flushBuffer();
         } catch (Throwable e) {
             log.error("Request handler failed, responding error 500", e);
-            sendError(hre, HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            sendError(hrq, hre, HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -81,13 +81,15 @@ public class Servlet extends HttpServlet {
     }
 
     @SuppressWarnings("WeakerAccess")
-    protected void sendError(HttpServletResponse hre, int status) {
+    protected void sendError(HttpServletRequest hrq, HttpServletResponse hre, int status) {
         try {
-            // TODO Send nice response page instead of server's default one. It must depend on Content-Type expected by client.
-            //      Maybe add special method(s) to UriToHandlerMapper? Like createErrorHandler(int status).
-            hre.sendError(status);
+            val handler = configuration.uriToHandlerMapper.createErrorHandler(hrq, status);
+            handler.httpServletRequest = hrq;
+            handler.httpServletResponse = hre;
+            handler.execute();
+            hre.flushBuffer();
         } catch (Throwable e2) {
-            // I/O error, or response is already committed. Nothing we can do.
+            // createErrorHandler() failed, I/O error, or response is already committed. Nothing we can do.
         }
     }
 }

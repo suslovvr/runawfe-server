@@ -61,13 +61,13 @@ public class RequestParamsParserTest {
         return ss;
     }
 
-    private void testOne(Map<String, String[]> requestParams, Object expected) {
+    private void testOne(Map<String, String[]> requestParams, Object expected) throws Exception {
         Object actual = parser.parse(Collections.emptyMap(), requestParams, expected.getClass());
         Assert.assertEquals(expected, actual);
     }
 
     @Test
-    public void testAll() {
+    public void testAll() throws Exception {
         testOne(Collections.emptyMap(), new BL());
         testOne(Collections.emptyMap(), new C());
         testOne(Collections.emptyMap(), new SI());

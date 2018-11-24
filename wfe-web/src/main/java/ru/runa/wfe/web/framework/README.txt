@@ -27,13 +27,16 @@ Core:
 - class RequestHandler is abstract base class for all request handlers.
   See package extra for some useful subclasses.
 
-- subclass of UriToHandlerMapping maps request URI to RequestHandler instances, collecting path parameters along.
+- subclass of UriToHandlerMapper maps request URI to RequestHandler instances, collecting path parameters along.
   I assume it to be done by splitting URI to components (by '/' char) and doing nested switch() on each component;
   there is a helper class UriToHandlerMapping.PathComponents for that. Path parameters can only occupy whole component.
 
 - subclass of RequestParamsParser parses path parameters and HttpServletRequest.getParametersMap() into new instance
   of RequestHandler.paramsClass. If you don't need application-specific parameter types or parameter parsing logic, you
   may instantiate RequestParamsParser itself in your ServletConfiguration subclass.
+
+- class DefaultErrorHandler is returned by default implementation of UriToHandlerMapper.createErrorHandler().
+  It just calls HttpServletResponse.sendError(status).
 
 
 Extra (core does not depend on these):
