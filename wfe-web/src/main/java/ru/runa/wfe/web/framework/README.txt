@@ -18,17 +18,17 @@ How to study:
 
 Core:
 
-- class Servlet is entry point. Register it (or its fubclass if you like) in web.xml.
+- class Servlet is entry point. Register it (or its subclass if you like) in web.xml.
   Specify servlet init parameter "configurationClass" -- full class name of ServletConfiguration subclass.
 
 - subclass of ServletConfiguration must have default constructor.
   It is responsible for constructing instances of UriToHandlerMapper and RequestParamsParser.
 
 - class RequestHandler is abstract base class for all request handlers.
-  See package ../extra for some useful subclasses.
+  See package extra for some useful subclasses.
 
 - subclass of UriToHandlerMapping maps request URI to RequestHandler instances, collecting path parameters along.
-  I assume it's to be done by splitting URI to components (by '/' char) and doing nested switch() on each component;
+  I assume it to be done by splitting URI to components (by '/' char) and doing nested switch() on each component;
   there is a helper class UriToHandlerMapping.PathComponents for that. Path parameters can only occupy whole component.
 
 - subclass of RequestParamsParser parses path parameters and HttpServletRequest.getParametersMap() into new instance
