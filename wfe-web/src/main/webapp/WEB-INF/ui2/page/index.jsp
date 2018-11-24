@@ -8,8 +8,8 @@
         <title>RunaWFE</title>
         <script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
         <script type="text/javascript" src="../js/vue-2.5.17.min.js"></script>
-        <script type="text/javascript" src="../js/ui2/spa.js?<%= wss %>"></script>
-        <link rel="stylesheet" type="text/css" href="../css/ui2/all.css?<%= wss %>"/>
+        <script type="text/javascript" src="../js/ui2/spa.js?_=<%= wss %>"></script>
+        <link rel="stylesheet" type="text/css" href="../css/ui2/all.css?_=<%= wss %>"/>
     </head>
     <body onload="wfe.spa.onLoad('<%= wss %>')">
         <table id="spa-wait"><tr><td>Пожалуйста, подождите...</td></tr></table>

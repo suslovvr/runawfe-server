@@ -1,7 +1,7 @@
 wfe.processDefs = new function() {
 
     this.onLoad = function() {
-        wfe.ajaxGetJson("getProcessDefs", function(data) {
+        wfe.ajaxGetJsonAndReady("processDefs", function(data) {
             var app = new Vue({
                 el: "#spa-body",
                 data: data

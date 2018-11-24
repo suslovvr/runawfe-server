@@ -1,14 +1,18 @@
 package ru.runa.wfe.web.api;
 
-import javax.servlet.http.HttpServletRequest;
 import lombok.Getter;
 import lombok.val;
 import ru.runa.common.web.Commons;
 import ru.runa.wfe.commons.CalendarUtil;
 import ru.runa.wfe.service.delegate.Delegates;
 import ru.runa.wfe.task.dto.WfTask;
+import ru.runa.wfe.web.framework.extra.JsonHandler;
 
-public class GetMyTasks extends Api<Api.EmptyRequest, Api.ListResponse<GetMyTasks.Row>> {
+public class GetMyTasks extends JsonHandler<Object, JsonHandler.ListResponse<GetMyTasks.Row>> {
+
+    public GetMyTasks() {
+        super(acceptGet, Object.class);
+    }
 
     @Getter
     static class Row {
@@ -21,19 +25,19 @@ public class GetMyTasks extends Api<Api.EmptyRequest, Api.ListResponse<GetMyTask
     }
 
     @Override
-    protected ListResponse<Row> execute(EmptyRequest form, HttpServletRequest hrq) {
-        val user = Commons.getUser(hrq.getSession());
+    protected ListResponse<Row> executeImpl() {
+        val user = Commons.getUser(httpServletRequest.getSession());
         val oo = Delegates.getTaskService().getMyTasks(user, null);
-        return new Api.ListResponse<Row>(user, oo.size()) {{
+        return new ListResponse<Row>(user, oo.size()) {{
             for (WfTask o : oo) {
-                getRows().add(new Row() {{
-                    id = o.getId();
-                    name = o.getName();
-                    description = o.getDescription();
-                    definitionName = o.getDefinitionName();
-                    creationDate = CalendarUtil.formatDateTime(o.getCreationDate());
-                    deadlineDate = CalendarUtil.formatDateTime(o.getDeadlineDate());
-                }});
+                val row = new Row();
+                row.id = o.getId();
+                row.name = o.getName();
+                row.description = o.getDescription();
+                row.definitionName = o.getDefinitionName();
+                row.creationDate = CalendarUtil.formatDateTime(o.getCreationDate());
+                row.deadlineDate = CalendarUtil.formatDateTime(o.getDeadlineDate());
+                getRows().add(row);
             }
         }};
     }

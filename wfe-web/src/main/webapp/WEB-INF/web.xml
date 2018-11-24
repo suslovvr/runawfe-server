@@ -71,6 +71,15 @@
 		</init-param>
 		<load-on-startup>0</load-on-startup>
 	</servlet>
+	<servlet>
+		<servlet-name>dimgelServlet</servlet-name>
+		<servlet-class>ru.runa.wfe.web.framework.core.Servlet</servlet-class>
+		<init-param>
+			<param-name>configurationClass</param-name>
+			<param-value>ru.runa.wfe.web.config.ServletConfigurationImpl</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
 
 	<servlet>
 		<servlet-name>freemarkerTagServlet</servlet-name>
@@ -169,10 +178,15 @@
 		<url-pattern>/version</url-pattern>
 	</servlet-mapping>
 
-	<!-- Struts goes last and handles everything else, including old "*.do" and new "/ui2/". -->
+	<!-- Struts & dimgel's servlet go last and handle everything else. -->
 	<servlet-mapping>
 		<servlet-name>action</servlet-name>
-		<url-pattern>/</url-pattern>
+		<url-pattern>*.do</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>dimgelServlet</servlet-name>
+		<url-pattern>/api/*</url-pattern>
+		<url-pattern>/ui2/*</url-pattern>
 	</servlet-mapping>
 
 	<welcome-file-list>

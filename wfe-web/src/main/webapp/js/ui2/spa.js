@@ -17,7 +17,7 @@ var wfe = new function() {
         $('#spa-error').show();
     };
 
-    this.ajaxGetJson = function(url, onSuccess) {
+    this.ajaxGetJsonAndReady = function(url, onSuccess) {
         wfe.wait();
         $.ajax({
             url: "/wfe/api/" + url,
@@ -37,6 +37,9 @@ var wfe = new function() {
     }
 };
 
+/**
+ * @author Dmitry Grigoriev (dimgel)
+ */
 wfe.spa = new function() {
     var self = this;
     var whenStartedString;
@@ -114,7 +117,7 @@ wfe.spa = new function() {
             return;
         }
 
-        var url = "/wfe/ui2" + hash.substr(1) + "?" + whenStartedString;
+        var url = "/wfe/ui2" + hash.substr(1) + "?_=" + whenStartedString;
 
         if (cachedHtmls[url]) {
             showPage(cachedHtmls[url], true);

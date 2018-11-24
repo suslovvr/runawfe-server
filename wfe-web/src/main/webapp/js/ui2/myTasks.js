@@ -1,7 +1,7 @@
 wfe.myTasks = new function() {
 
     this.onLoad = function() {
-        wfe.ajaxGetJson("getMyTasks", function(data) {
+        wfe.ajaxGetJsonAndReady("myTasks", function(data) {
             var app = new Vue({
                 el: "#spa-body",
                 data: data
