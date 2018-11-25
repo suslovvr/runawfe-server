@@ -82,7 +82,7 @@ public class RequestParamsParser {
         String namePart = nameParts[namePartIdx];
         Matcher m = regexNamePart.matcher(namePart);
         if (!m.matches()) {
-            throw fail(nameParts, namePartIdx, " is malformed");
+            throw new Exception("Name part \"" + namePart + "\" is malformed");
         }
         String fieldName = m.group(1);
         String indexStringOrNull = m.group(2);
@@ -121,7 +121,8 @@ public class RequestParamsParser {
                 indexOrNull = convertValueToType(indexStringOrNull, keyType);
                 valueType = ft.getActualTypeArguments()[1];
             } else {
-                throw fail(nameParts, namePartIdx, " has index, but corresponding field is " + fv.getClass() + " (neither ArrayList nor HashMap)");
+                throw new Exception("Name part \"" + namePart + "\" has index, but corresponding field of class " + o.getClass() +
+                        " has type " + fc + " (neither ArrayList nor HashMap)");
             }
         }
 
@@ -271,15 +272,5 @@ public class RequestParamsParser {
         } else {
             throw new Exception("Unexpected type subclass " + t);
         }
-    }
-
-    private static Exception fail(String[] nameParts, int namePartIdx, String msg) {
-        val sb = new StringBuilder("Parameter name part \"");
-        sb.append(nameParts[0]);
-        for (int i = 1;  i <= namePartIdx;  i++) {
-            sb.append(".").append(nameParts[i]);
-        }
-        sb.append("\" ").append(msg);
-        return new Exception(sb.toString());
     }
 }
