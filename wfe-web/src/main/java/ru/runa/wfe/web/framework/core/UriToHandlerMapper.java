@@ -27,6 +27,7 @@ public abstract class UriToHandlerMapper {
         }
 
         /**
+         * Returns next path component, or empty string if no more components exist.
          * Never returns null, because switch(null) on caller side throws NPE.
          * INSENSITIVE to trailing slashes, since returns "" for both missing and empty path component.
          */
