@@ -6,8 +6,12 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.val;
 import org.apache.commons.lang.StringUtils;
 
@@ -27,7 +31,7 @@ import org.apache.commons.lang.StringUtils;
  * Target class (and in case of compound parameter names, classes of its fields, recursively):
  * <ul>
  *     <li>Must have default constructor.
- *     <li>Fields must be public; they are accessed directly (setters are not used) and I don't want to deal with setAccessible(true).
+ *     <li>Fields are accessed directly (setters are not used).
  *     <li>For param name parts with indexes, only ArrayList and HashMap fields are supported.
  *         For ArrayHist, only non-negative integer indexes are supported. Gaps are allowed, missing elements are filled with nulls.
  *         For HashMap, key must be non-generic type supported by {@link #convertValueToType(String, Type)}.
@@ -83,13 +87,7 @@ public class RequestParamsParser {
         String fieldName = m.group(1);
         String indexStringOrNull = m.group(2);
 
-        Field f;
-        try {
-            f = o.getClass().getField(fieldName);
-            //f.getDeclaringClass().getDeclaredField(fieldName).setAccessible(true);  // allows fields to be private
-        } catch (NoSuchFieldException e) {
-            throw fail(nameParts, namePartIdx, " is not a field of class " + o.getClass());
-        }
+        Field f = getClassField(o.getClass(), fieldName);
         Class<?> fc = f.getType();
         Object fv = f.get(o);
 
@@ -174,6 +172,37 @@ public class RequestParamsParser {
             }
             processNamePart(subObject, nameParts, namePartIdx + 1, values);
         }
+    }
+
+    @AllArgsConstructor
+    @EqualsAndHashCode
+    private static class ClassFieldCacheKey {
+        final Class<?> clazz;
+        final String fieldName;
+    }
+
+    private static ConcurrentHashMap<ClassFieldCacheKey, Field> classFieldCache = new ConcurrentHashMap<>();
+
+    // To support private fields.
+    private static Field getClassField(Class<?> clazz, String fieldName) {
+        return classFieldCache.computeIfAbsent(new ClassFieldCacheKey(clazz, fieldName), new Function<ClassFieldCacheKey, Field>() {
+            @Override
+            public Field apply(ClassFieldCacheKey key) {
+                Class c = key.clazz;
+                while (true) {
+                    try {
+                        Field f = c.getDeclaredField(key.fieldName);
+                        f.setAccessible(true);
+                        return f;
+                    } catch (NoSuchFieldException e) {
+                        c = c.getSuperclass();
+                        if (c == null) {
+                            throw new RuntimeException(key.fieldName + " is not a field of class " + key.clazz);
+                        }
+                    }
+                }
+            }
+        });
     }
 
     @SuppressWarnings("WeakerAccess")

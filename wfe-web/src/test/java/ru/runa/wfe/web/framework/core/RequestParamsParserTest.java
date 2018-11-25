@@ -17,13 +17,26 @@ public class RequestParamsParserTest {
 
     private RequestParamsParser parser = new RequestParamsParser();
 
-    @NoArgsConstructor
     @AllArgsConstructor
-    @EqualsAndHashCode
-    @ToString
-    static class BL {
-        public boolean bbb;
-        public long lll;
+    static class B {
+        boolean bbb;
+    }
+
+    static class BL extends B {
+        long lll;
+        BL() {
+            super(false);
+            lll = 0;
+        }
+        BL(boolean bbb, long lll) {
+            super(bbb);
+            this.lll = lll;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            return (obj instanceof BL) && ((BL)obj).bbb == bbb && ((BL)obj).lll == lll;
+        }
     }
 
     @NoArgsConstructor
@@ -31,8 +44,8 @@ public class RequestParamsParserTest {
     @EqualsAndHashCode
     @ToString
     static class C {
-        public Character c;
-        public int d;
+        Character c;
+        int d;
     }
 
     @NoArgsConstructor
@@ -40,8 +53,8 @@ public class RequestParamsParserTest {
     @EqualsAndHashCode
     @ToString
     static class SI {
-        public String s;
-        public Integer i;
+        String s;
+        Integer i;
     }
 
     @NoArgsConstructor
@@ -49,12 +62,12 @@ public class RequestParamsParserTest {
     @EqualsAndHashCode
     @ToString
     static class Compound {
-        public ArrayList<BL> bb;
-        public HashMap<String, Character> cc;
-        public HashMap<String, C> ccc;
-        public SI si;
-        public ArrayList<String> ss;
-        public ArrayList<ArrayList<String>> sss;
+        ArrayList<BL> bb;
+        HashMap<String, Character> cc;
+        HashMap<String, C> ccc;
+        SI si;
+        ArrayList<String> ss;
+        ArrayList<ArrayList<String>> sss;
     }
 
     private String[] toStringArray(String... ss) {
