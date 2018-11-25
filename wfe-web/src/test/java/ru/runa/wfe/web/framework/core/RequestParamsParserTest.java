@@ -17,9 +17,10 @@ public class RequestParamsParserTest {
 
     private RequestParamsParser parser = new RequestParamsParser();
 
+    // To check private fields in superclass.
     @AllArgsConstructor
-    static class B {
-        boolean bbb;
+    static abstract class B {
+        protected boolean bbb;
     }
 
     static class BL extends B {
