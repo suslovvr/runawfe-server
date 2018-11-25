@@ -14,7 +14,7 @@ public class UriToHandlerMapperImpl extends UriToHandlerMapper {
 
     @Override
     protected RequestHandler createHandler(RequestMethod method, String uri, HashMap<String, String> pathParams) throws Exception {
-        // Special cases not covered by PathComponents (which does not accept null and is insensitive to trailing slash).
+        // Special cases not covered by PathComponents (which is insensitive to trailing slash).
         if (uri.isEmpty() || uri.equals("/ui2")) {
             return new RedirectHandler("/wfe/ui2/");
         }
@@ -31,7 +31,7 @@ public class UriToHandlerMapperImpl extends UriToHandlerMapper {
             }
             case "ui2": switch (pathComponents.next()) {
                 case "":
-                    // TODO And this is where compiled template engine could allow us to get rid of string literals & dynamic dispatch.
+                    // TODO This is where compiled template engine could allow us to get rid of string literals & dynamic dispatch.
                     return new JspHandler("page/index.jsp");  // SPA
                 case "myTasks":
                     return new JspHandler("page/myTasks.jsp");

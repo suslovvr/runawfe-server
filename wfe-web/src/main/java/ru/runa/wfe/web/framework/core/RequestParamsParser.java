@@ -85,7 +85,8 @@ public class RequestParamsParser {
 
         Field f;
         try {
-            f = o.getClass().getField(fieldName);  //.getDeclaringClass().getDeclaredField(fieldName);
+            f = o.getClass().getField(fieldName);
+            //f.getDeclaringClass().getDeclaredField(fieldName).setAccessible(true);  // allows fields to be private
         } catch (NoSuchFieldException e) {
             throw fail(nameParts, namePartIdx, " is not a field of class " + o.getClass());
         }
