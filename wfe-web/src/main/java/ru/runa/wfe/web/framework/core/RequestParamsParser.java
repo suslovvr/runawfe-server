@@ -264,7 +264,7 @@ public class RequestParamsParser {
         }
     }
 
-    private static Class<?> convertTypeToClass(Type t) throws Exception {
+    private Class<?> convertTypeToClass(Type t) throws Exception {
         if (t instanceof Class) {
             return (Class) t;
         } else if (t instanceof ParameterizedType) {
