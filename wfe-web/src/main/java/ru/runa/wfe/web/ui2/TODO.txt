@@ -1,5 +1,6 @@
-TODO Query string for JSP ???
-TODO Hash in hash (for tab controls) ???
+TODO SPA: Open links in new tabs!
+TODO spa.js: Query string for JSP ???
+TODO spa.js: Hash in hash (for tab controls) ???
 TODO Error page (#spa-error): main menu, server-side error logger + localized "server-side error NNNN" message, links "Retry" & "Go home" ???
     Server-side error logging first requires cleaning exception subclasses mess.
 TODO Localization.
@@ -14,8 +15,9 @@ TODO Wiki, including:
         This is done in wfe.ajaxGetJsonAndReady() helper.
 TODO Authentication: currently done by old site, currentUser is rendered on server-side in JSP.
 TODO Move to REST API.
-    First, what about REST Authentication?
-    Then, current UI2 API requests should accept requested columns list (along with pagination, etc.)
+    1. OAuth2 (Implicit for SPA, Client Code for TNMS if applicable).
+    2. Write XLS with URLs for all current ServiceBean APIs.
+    3. Current UI2 API requests should accept requested columns list (along with pagination, etc.)
         On server side, this column list is best mapped to SQL column list, to minimize java-sql traffic too.
 TODO Should generate JSON without RAM usage, in a style of Apache wink-json4j.
     But first, this requires:

@@ -117,7 +117,7 @@ wfe.spa = new function() {
             return;
         }
 
-        var url = "/wfe/ui2" + hash.substr(1) + "?_=" + whenStartedString;
+        var url = "/wfe/ui2" + hash.substr(1) + "?.=" + whenStartedString;
 
         if (cachedHtmls[url]) {
             showPage(cachedHtmls[url], true);

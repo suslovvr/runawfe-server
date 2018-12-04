@@ -35,7 +35,7 @@ public class Servlet extends HttpServlet {
 
     @Override
     protected void service(HttpServletRequest hrq, HttpServletResponse hre) {
-        RequestMethod method = null;
+        RequestMethod method;
         RequestHandler handler;
         try {
             method = RequestMethod.valueOf(hrq.getMethod());

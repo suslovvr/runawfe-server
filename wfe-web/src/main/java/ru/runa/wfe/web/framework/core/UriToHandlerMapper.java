@@ -65,7 +65,9 @@ public abstract class UriToHandlerMapper {
     protected abstract RequestHandler createHandler(RequestMethod method, String uri, HashMap<String, String> pathParams) throws Exception;
 
     /**
-     * Default implementation returns DefaultErrorHandler.
+     * ATTENTION! RequestHandler is stateful, so this method must create and return NEW instance on each call.
+     *
+     * Default implementation creates and returns DefaultErrorHandler.
      *
      * @param hrq Provided for request headers analysis (Accept, etc.).
      * @param status May be 400, 404, 500.

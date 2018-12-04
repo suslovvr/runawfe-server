@@ -1,8 +1,8 @@
 Classes here are the web framework, which:
 
-- is responsible for dispatching requests to RequestHandler instances and for converting request parameters to java objects.
+- is responsible for dispatching requests to RequestHandler instances and for converting request parameters to Java objects;
 
-- contains no annotations, no XML configs, no magic, just simple stupid straight imperative java code.
+- contains no annotations, no XML configs, no magic, just simple stupid straight imperative Java code.
 
 Initially created by Dmitry Grigoriev (dimgel).
 

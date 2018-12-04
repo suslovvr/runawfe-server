@@ -15,6 +15,6 @@ public class JspHandler extends RequestHandler<Object> {
 
     @Override
     protected void execute() throws Exception {
-        httpServletRequest.getRequestDispatcher("/WEB-INF/ui2/" + jspFilePath).forward(httpServletRequest, httpServletResponse);
+        httpServletRequest.getRequestDispatcher("/WEB-INF/" + jspFilePath).forward(httpServletRequest, httpServletResponse);
     }
 }

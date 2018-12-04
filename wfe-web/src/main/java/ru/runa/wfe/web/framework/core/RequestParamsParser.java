@@ -20,9 +20,9 @@ import org.apache.commons.lang.StringUtils;
  * <p>
  * Parameter names:
  * <ul>
+ *     <li>Starting with dot '.' are ignored. This is done for "?.=YYYYMMDDhhmmss" and for other stuff like debug params.
  *     <li>Can be compound, like this: aaa1.bbb_2[3].ccc[string-key].ddd
- *     <li>Names starting with _ are ignored. This is done for "?_=YYYYMMDDhhmmss" and for other stuff like debug params.
- *     <li>Each name part must correspond to Java class field name; first letter must be lowercase [a-z].
+ *     <li>Each name part must correspond to Java class field name; first letter must be lowercase [a-z] or underscore.
  *     <li>Indexes can be anything that does not contain ']'.
  *         Indexes can NOT be empty, because otherwise "a[].b" and "a[].c" may map to "a[0].b" and "a[1].c".
  *     <li>Multi-valued parameters are supported (if parameter maps to ArrayList field).
@@ -59,7 +59,7 @@ public class RequestParamsParser {
         }
         for (val kv : requestParams.entrySet()) {
             String name = kv.getKey();
-            if (name.charAt(0) != '_') {
+            if (name.charAt(0) != '.') {
                 setFieldValue(o, name, kv.getValue());
             }
         }

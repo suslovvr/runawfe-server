@@ -32,11 +32,11 @@ public class UriToHandlerMapperImpl extends UriToHandlerMapper {
             case "ui2": switch (pathComponents.next()) {
                 case "":
                     // TODO This is where compiled template engine could allow us to get rid of string literals & dynamic dispatch.
-                    return new JspHandler("page/index.jsp");  // SPA
+                    return new JspHandler("ui2/page/index.jsp");  // SPA
                 case "myTasks":
-                    return new JspHandler("page/myTasks.jsp");
+                    return new JspHandler("ui2/page/myTasks.jsp");
                 case "processDefs":
-                    return new JspHandler("page/processDefs.jsp");
+                    return new JspHandler("ui2/page/processDefs.jsp");
                 default:
                     return null;
             }
