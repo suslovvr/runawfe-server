@@ -1,13 +1,20 @@
 wfe.processDefs = new function() {
+    var app = null;
 
     this.onLoad = function() {
+        this.onUnload();  // just in case
         wfe.ajaxGetJsonAndReady("processDefs", function(data) {
-            var app = new Vue({
+            app = new Vue({
                 el: "#spa-body",
                 data: data
             });
-            // TODO Need onUnload() to make Vue a JS class member instead of destroying it instantly.
-            app.$destroy();
         });
-    }
+    };
+
+    this.onUnload = function() {
+        if (app) {
+            app.$destroy();
+            app = null;
+        }
+    };
 };

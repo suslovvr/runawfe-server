@@ -1,7 +1,7 @@
 <%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
 <%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
 <tiles:insert page="/WEB-INF/ui2/layout/main.jsp" flush="true">
-    <tiles:put name="onload" value="wfe.processDefs.onLoad()"/>
+    <tiles:put name="jsController" value="wfe.processDefs"/>
     <tiles:put name="mainMenuActiveItem" value="processDefs"/>
     <tiles:put name="head" type="string">
         <title>Задачи</title>

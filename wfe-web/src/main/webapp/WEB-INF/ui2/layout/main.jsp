@@ -2,12 +2,12 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
 <%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
 <html:html>
-    <tiles:useAttribute name="onload"/>
+    <tiles:useAttribute name="jsController"/>
     <tiles:useAttribute id="mm" name="mainMenuActiveItem"/>
     <head>
         <tiles:insert attribute="head" ignore="true"/>
     </head>
-    <body onload="<%= onload %>">
+    <body data-jsController="<%= jsController %>">
         <div class="content"><div class="contentback">
             <tiles:insert attribute="content" ignore="true"/>
         </div></div>

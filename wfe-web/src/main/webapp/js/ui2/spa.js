@@ -47,6 +47,7 @@ wfe.spa = new function() {
     var titleSuffix = document.title;
     var attachedScriptsAndStyles = {};
     var cachedHtmls = {};
+    var currentJsController = null;
 
     function showPage(html, fromCache) {
         // Prevent loss of <html>, <head>, <body> tags; https://stackoverflow.com/a/10585079/4247442
@@ -60,13 +61,17 @@ wfe.spa = new function() {
         var qBody = qHtml.find("body");
         $("#spa-body").empty().append(qBody.contents().clone());
 
-        // HTML can include JS & CSS files in <head>, inline JS in body, and body/@onload attribute.
+        // HTML can include JS & CSS files in <head>, inline JS in body, and <body data-jsController="..."> attribute.
         // JS files cannot contain $(function) since they are loaded only once.
         function onPageLoaded() {
-            var onload = qBody.attr('onload');
-            if (onload) {
-                // It must call wfe.wait() if it performs ajax requests; and always -- wfe.ready() or wfe.error().
-                eval(onload);
+            if (currentJsController && currentJsController.onUnload) {
+                currentJsController.onUnload();
+            }
+            var s = qBody.attr('data-jsController');
+            currentJsController = s ? eval(s) : null;
+            if (currentJsController && currentJsController.onLoad) {
+                // This must call wfe.wait() if it performs ajax requests; and always -- wfe.ready() or wfe.error().
+                currentJsController.onLoad();
             } else {
                 wfe.ready();
             }
