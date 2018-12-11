@@ -61,6 +61,7 @@ import ru.runa.wfe.commons.dbpatch.impl.CreateReportsTables;
 import ru.runa.wfe.commons.dbpatch.impl.CreateSignalTable;
 import ru.runa.wfe.commons.dbpatch.impl.ExpandDescriptionsPatch;
 import ru.runa.wfe.commons.dbpatch.impl.ExpandVarcharPatch;
+import ru.runa.wfe.commons.dbpatch.impl.IndexProcessClientData;
 import ru.runa.wfe.commons.dbpatch.impl.JbpmRefactoringPatch;
 import ru.runa.wfe.commons.dbpatch.impl.NodeTypeChangePatch;
 import ru.runa.wfe.commons.dbpatch.impl.PerformancePatch401;
@@ -158,6 +159,7 @@ public class InitializerLogic implements ApplicationListener<ContextRefreshedEve
         patches.add(RefactorPermissionsStep3.class);
         patches.add(CreateSignalTable.class);
         patches.add(AddProcessClientData.class);
+        patches.add(IndexProcessClientData.class);
         dbPatches = Collections.unmodifiableList(patches);
     }
 
