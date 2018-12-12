@@ -19,7 +19,8 @@
                 <img src="/wfe/images/ui2/ico/mainMenu/processDefs.png" alt="Запустить процесс" title="Запустить процесс" onclick="wfe.spa.gotoUrl('/processDefs')"/>
             </div>
             <div class="<%= "processes".equals(mm) ? "active" : "" %>">
-                <img src="/wfe/images/ui2/ico/mainMenu/processes.png" alt="Запущенные процессы" title="Запущенные процессы" /></div>
+                <img src="/wfe/images/ui2/ico/mainMenu/processes.png" alt="Запущенные процессы" title="Запущенные процессы" onclick="wfe.spa.gotoUrl('/processes')"/>
+            </div>
             <div class="<%= "reports".equals(mm) ? "active" : "" %>">
                 <img src="/wfe/images/ui2/ico/mainMenu/reports.png" alt="Отчёты" title="Отчёты" />
             </div>

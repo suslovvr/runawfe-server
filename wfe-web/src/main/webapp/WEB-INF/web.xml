@@ -125,17 +125,12 @@
 	<!-- Mappings are checked in the order of their definition. Default servlet goes first and handles static files. -->
 	<servlet-mapping>
 		<servlet-name>default</servlet-name>
-		<url-pattern>*.css</url-pattern>
-		<url-pattern>*.gif</url-pattern>
-		<url-pattern>*.js</url-pattern>
+		<url-pattern>/css/</url-pattern>
+		<url-pattern>/images/</url-pattern>
+		<url-pattern>/js/</url-pattern>
 		<url-pattern>*.png</url-pattern>
 		<url-pattern>*.scss</url-pattern>
 		<url-pattern>*.svg</url-pattern>
-
-		<!-- This didn't work, no idea why: -->
-		<!--url-pattern>/css/*</url-pattern>
-		<url-pattern>/images/*</url-pattern>
-		<url-pattern>/js/*</url-pattern-->
 	</servlet-mapping>
 
 	<servlet-mapping>

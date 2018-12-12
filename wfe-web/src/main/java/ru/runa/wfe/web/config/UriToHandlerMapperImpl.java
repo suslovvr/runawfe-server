@@ -4,6 +4,7 @@ import java.util.HashMap;
 import lombok.val;
 import ru.runa.wfe.web.api.GetMyTasks;
 import ru.runa.wfe.web.api.GetProcessDefs;
+import ru.runa.wfe.web.api.GetProcesses;
 import ru.runa.wfe.web.framework.core.RequestHandler;
 import ru.runa.wfe.web.framework.core.RequestMethod;
 import ru.runa.wfe.web.framework.core.UriToHandlerMapper;
@@ -26,6 +27,8 @@ public class UriToHandlerMapperImpl extends UriToHandlerMapper {
                     return new GetMyTasks();
                 case "processDefs":
                     return new GetProcessDefs();
+                case "processes":
+                    return new GetProcesses();
                 default:
                     return null;
             }
@@ -37,6 +40,8 @@ public class UriToHandlerMapperImpl extends UriToHandlerMapper {
                     return new JspHandler("ui2/page/myTasks.jsp");
                 case "processDefs":
                     return new JspHandler("ui2/page/processDefs.jsp");
+                case "processes":
+                    return new JspHandler("ui2/page/processes.jsp");
                 default:
                     return null;
             }
