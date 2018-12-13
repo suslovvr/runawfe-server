@@ -8,9 +8,14 @@
         <tiles:insert attribute="head" ignore="true"/>
     </head>
     <body data-jsController="<%= jsController %>">
-        <div class="content"><div class="contentback">
+        <div class="content">
+            <div class="topmenuwrap">
+	            <img src="/wfe/images/ui2/ico/user.png" class="user" />
+	            <img src="/wfe/images/ui2/ico/top-tun.png" alt="Настройки"  title="Настройки" class="tun"/><span>{{currentUser.name}}</span>
+            </div>
+            <img src="/wfe/images/ui2/logo.png" class="logo" />
             <tiles:insert attribute="content" ignore="true"/>
-        </div></div>
+        </div><div class="footer">Copyright, Sybernix, 2018</div>
         <div class="leftmenuback"><div class="leftmenuwrap">
             <div class="<%= "myTasks".equals(mm) ? "active" : "" %>">
                 <img src="/wfe/images/ui2/ico/mainMenu/myTasks.png" alt="Мои задачи" title="Мои задачи" onclick="wfe.spa.gotoUrl('/myTasks')"/>
@@ -24,13 +29,6 @@
             <div class="<%= "reports".equals(mm) ? "active" : "" %>">
                 <img src="/wfe/images/ui2/ico/mainMenu/reports.png" alt="Отчёты" title="Отчёты" />
             </div>
-            <div>
-                <img src="/wfe/images/ui2/ico/start1dark.png" alt="Развернуть" id="leftsizechange" title="Развернуть" />
-            </div>
         </div></div>
-        <div class="topmenuwrap">
-            <img src="/wfe/images/ui2/ico/user.png" />
-            <span>{{currentUser.name}}</span>
-        </div>
     </body>
 </html:html>
