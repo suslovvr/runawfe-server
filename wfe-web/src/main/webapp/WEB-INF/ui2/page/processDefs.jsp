@@ -8,28 +8,50 @@
         <script type="text/javascript" src="/wfe/js/ui2/processDefs.js"></script>
     </tiles:put>
     <tiles:put name="content" type="string">
-        <div class="filters">
-            <img src="/wfe/images/ui2/ico/filter.png" onmouseover="this.title.attr=filters" title="" /><!-- пока на hover, надо на click -->
-            <div>
-                Пример (пока на hover, надо на click)<br /><input type="checkbox" /> Владелец процесса<br /><input type="checkbox" />Дата загрузки
-            </div>
-        </div>
-        <p class="pagename">Определение процессов</p>
-        <table class="work def"><tbody>
-            <tr>
-                <td><input type="checkbox"/></td>
-                <td>Запустить</td>
-                <td><a href="" title="Сортировка">Имя</a></td>
-                <td><a href="" title="Сортировка">Тип процесса</a></td>
-                <td>Описание / (Длинное описание)</td>
-            </tr>
-            <tr v-for="o in rows">
-                <td><input type="checkbox"/></td>
-                <td><img src="/wfe/images/ui2/ico/start1_dark.png" alt="Запустить" class="start"/></td>
-                <td>{{o.name}}</td>
-                <td>{{o.category}}</td>
-                <td class="description">{{o.description}}</td>
-            </tr>
-        </tbody></table>
+        <div class="two-contentback" id="two-contentback">
+	    <form>
+		<div class="input-buttons">
+					<input type="submit" value="Запустить процесс" />
+		</div>
+		<h1>Оформление договора</h1>
+		<div class="work">
+			<div class="def">
+				<div class="long-description" id="long-description1">
+					<!-- Длинное описание-->
+					Пример 111 <p>Длинное описание</p><p>Длинное описание</p><p>Длинное описание</p><p>Длинное описание</p><p>Длинное описание</p><p>Длинное описание</p><p>Длинное описание</p>
+				</div>	
+				<div class="firstform"  id="firstform1">
+					<h3>Заполните форму, если она есть и запустите процесс</h3>
+				<table class="process-var">
+				<tbody>
+					<tr>
+		 			 <td>Отображение переменной1</td>
+		 			 <td>значение переменной1</td>
+					</tr>
+					<tr>
+					  <td>Ввод переменной2</td>
+					  <td><input type="text" value="значение переменной2" /></td>
+					</tr>
+				</tbody>
+				</table>
+				</div>
+			</div>
+		</div></form>
+	</div>
+	
+	<div class="one-contentback oc-shadow" id="one-contentback">	
+		<h1>Запустить процесс</h1>
+		<div class="work">
+			<div class="def">
+				<ul>
+				<li v-for="o in rows"><span title="Запустить" class="process-name">{{o.name}}</span>
+		 		 <div class="description" id="description1" title="Подробнее">{{o.category}} / {{o.description}}. <span class="desc-ling-open">Подробнее...</span>
+	             </div>
+				</li>
+				</ul>
+
+			</div>
+		</div>	
+     </div>
     </tiles:put>
 </tiles:insert>
