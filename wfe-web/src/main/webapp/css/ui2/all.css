@@ -24,17 +24,17 @@ body, #spa-wait, #spa-body, #spa-error {
     display: none;
 }
 h1 {
-	font-size:1.5em;
-	font-weight: bold;
-	margin:0;
-	padding: 50px 40px;
+    font-size:1.5em;
+    font-weight: bold;
+    margin:0;
+    padding: 50px 40px;
 }
 h1.level2 {
-	padding-bottom:0;
+   padding-bottom:0;
 }
 h2 {
     margin: 0 40px 30px; 
-	font-weight: normal; 
+    font-weight: normal; 
 }
 .des-top1 {
     width:90px;
@@ -43,31 +43,31 @@ h2 {
     height:120px;
 }
 .leftmenuback {
-	position: fixed;
+    position: fixed;
     top: 0;
-	left: 0;
+    left: 0;
     bottom: -120px;
     z-index: 1;
-	width: 74px;
+    width: 74px;
 }
 .leftmenuwrap {
-	position: fixed;
+    position: fixed;
     top: 130px;
-	width: 90px;
+    width: 90px;
 }
 .leftmenuwrap div {
-	width:100%;
-	text-align:left;
+    width:100%;
+    text-align:left;
 }
 .leftmenuwrap img {
-	margin-bottom:8px;
-	margin-top: 8px;
-	cursor:pointer;
-	margin-left:15px;
-	cursor:pointer;
+    margin-bottom:8px;
+    margin-top: 8px;
+    cursor:pointer;
+    margin-left:15px;
+    cursor:pointer;
 }
 .leftmenuwrap img:hover {
-	filter: brightness(30);
+    filter: brightness(30);
 }
 .active { 
 	/*background:url(/wfe/images/ui2/ico/selected.png); background-repeat:no-repeat;
@@ -75,66 +75,66 @@ h2 {
 }
 .active img {
 /*	filter: brightness(3) saturate(0) hue-rotate(90deg); */
-	filter: brightness(30);
-	cursor: auto !important;
-	background:none;
+    filter: brightness(30);
+    cursor: auto !important;
+    background:none;
 }
 .leftmenuwrap img.sel:hover {
-	filter: none;
+    filter: none;
 }
 .content {
     width: 100%;
-	display:block;
-	float:left;
-	padding-bottom: 20px;
+    display:block;
+    float:left;
+    padding-bottom: 20px;
 }
 .one-contentback {
-	position:relative;
-	width: 100%; 
+    position:relative;
+    width: 100%; 
     width: -moz-available;   /* WebKit-based browsers will ignore this. */ 
     width: -webkit-fill-available; /* Mozilla-based browsers will ignore this. */ 
     width: fill-available; 
-	height:100%;
-	border-radius:15px;
-	background-color:#ffffff;
-	margin:0 20px 0 90px;
-	padding:0 0 40px 0;
-	z-index:1000;
+    height:100%;
+    border-radius:15px;
+    background-color:#ffffff;
+    margin:0 20px 0 90px;
+    padding:0 0 40px 0;
+    z-index:1000;
 }
 .footer {
-	padding-right: 20px;
-	text-align:right;
+    padding-right: 20px;
+    text-align:right;
 }
 .oc-shadow {
     box-shadow: 7px 0px 6px -4px #e0eaee; /*box-shadow: inset -2px 0 0 #e0eaee;*/
 }
 .two-contentback
 {
-	width: 100%; 
+    width: 100%; 
     width: -moz-available;   /* WebKit-based browsers will ignore this. */ 
     width: -webkit-fill-available; /* Mozilla-based browsers will ignore this. */ 
     width: fill-available; 
-	position:relative;
-	visibility:hidden;	
-	background-color:#ffffff;
-	margin:0 20px 0 90px;
-	border-radius:15px;
-	height:100%;
-	padding:0 0 40px 30%;
-	z-index: 1;
+    position:absolute;
+    visibility:hidden;	
+    background-color:#ffffff;
+    margin:0 20px 0 90px;
+    border-radius:15px;
+    height:100%;
+    padding:0 0 40px 30%;
+    z-index: 1;
 }
 .two-contentback .work {
-margin-left:20px;
+    margin-left:20px;
 }
 .topmenuwrap {
-	height: 50px;
-	text-align: right;
-	padding: 20px;
-	float:right;
+    height: 50px;
+    text-align: right;
+    padding: 20px;
+    float:right;
 }
 .logo {
-	padding: 30px 5px 23px 120px;
-	float:none;
+    padding: 30px 5px 23px 120px;
+    float:none;
 }
 .topmenuwrap .user {
 	border-radius: 50%;
@@ -315,8 +315,8 @@ margin-left:20px;
     background-color: #FFFFFF;
     box-shadow: 0px 1px 20px 5px #f1efef;
     border-radius: 15px;
-	text-align:left;
-	margin-top:50px;
+    text-align:left;
+    margin-top:50px;
 }
 #info div {
 	width:30%;
@@ -327,20 +327,20 @@ margin-left:20px;
 }
 
 .process-info {
-	width:100%;
+    width:100%;
     left: 0;
-	margin: 0;
+    margin: 0;
     padding: 10px 0 10px 0;
-	min-height: 70px;
+    min-height: 70px;
 }
 .process-info span {
-display:inline-block;
-margin-left:40px;
-font-size: 0.9rem;
+    display:inline-block;
+    margin-left:40px;
+    font-size: 0.9rem;
 }
 .input-buttons {
     float:right;
-	padding-top:40px;
+    padding-top:40px;
     padding-right:10px;
 }
 .two-c30 {
@@ -363,26 +363,26 @@ form, .pro {
 .pro input[type=text], input[type=text] {
     border-radius: 15px;
     width: auto;
-	min-width:300px;
+    min-width:300px;
     height: 32px;
     margin: 10px;
-	padding-left:10px;
-	padding-right:10px;
+    padding-left:10px;
+    padding-right:10px;
 }
 .pro textarea, textarea {
     border-radius: 15px;
     width: auto;
-	min-width:300px;
+    min-width:300px;
     height: auto;
     min-height: 200px;
     margin: 10px;
     border: 1px solid #f1efef; /* default-color */
-	padding: 10px;
+    padding: 10px;
 }
 .pro input[type=image], input[type=image] {
     width: auto;
     border: 0;
-	cursor: pointer;
+    cursor: pointer;
 }
 .pro input[type=file], input[type=file] {
     margin: 10px;
@@ -395,7 +395,7 @@ form, .pro {
     font-size: 1em !important;
     padding: 5px;
     border: 0;
-	border: 1px solid #f1efef;
+    border: 1px solid #f1efef;
 }
 .pro input[type=submit], input[type=submit], .pro input[type=reset], input[type=reset], input[type=reset], .pro input[type=button], input[type=button], .pro button, button {
     border-radius: 8px;
@@ -467,13 +467,13 @@ form, .pro {
 }
 .filter {
     width: 100%; 
-	height:90px; 
-	display: none;
+    height:90px; 
+    display: none;
 }
 
 .vert-mid {
     display: table-cell;
-	vertical-align:middle;
+    vertical-align:middle;
 }
 .filter input[type=text] {
    	width:150px;
