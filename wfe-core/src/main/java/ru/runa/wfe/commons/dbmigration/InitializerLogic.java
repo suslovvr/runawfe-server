@@ -26,6 +26,7 @@ import ru.runa.wfe.commons.dbmigration.impl.AddMultiTaskIndexToTaskPatch;
 import ru.runa.wfe.commons.dbmigration.impl.AddNodeIdToProcessLogPatch;
 import ru.runa.wfe.commons.dbmigration.impl.AddParentProcessIdPatch;
 import ru.runa.wfe.commons.dbmigration.impl.AddProcessAndTokenExecutionStatusPatch;
+import ru.runa.wfe.commons.dbmigration.impl.AddProcessClientData;
 import ru.runa.wfe.commons.dbmigration.impl.AddSequentialFlagToBot;
 import ru.runa.wfe.commons.dbmigration.impl.AddSettingsTable;
 import ru.runa.wfe.commons.dbmigration.impl.AddSubProcessIndexColumn;
@@ -147,7 +148,8 @@ public class InitializerLogic implements ApplicationListener<ContextRefreshedEve
             SupportProcessArchiving.class,
             RenameProcessesBatchPresentationCategories.class,
             RenameProcessesBatchPresentationClassTypes.class,
-            RenameSequences.class
+            RenameSequences.class,
+            AddProcessClientData.class
     );
 
     @Autowired

@@ -36,6 +36,9 @@ public abstract class Process<T extends Token> extends SecuredObjectBase {
     @Column(name = "END_DATE")
     protected Date endDate;
 
+    @Column(name = "CLIENT_DATA")
+    protected Long clientData;
+
     public abstract boolean isArchive();
     public abstract Long getId();
     public abstract T getRootToken();
@@ -65,6 +68,13 @@ public abstract class Process<T extends Token> extends SecuredObjectBase {
 
     public Date getEndDate() {
         return endDate;
+    }
+
+    /**
+     * Inherited by subprocesses (copied from parent process to subprocess on subprocess creation).
+     */
+    public Long getClientData() {
+        return clientData;
     }
 
     /**
