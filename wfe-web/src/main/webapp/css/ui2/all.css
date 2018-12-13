@@ -257,13 +257,8 @@ h2 {
 .def ul li:hover {
 	background-color:#e0eaee;
 }
-
 .def ul li span:hover, .underline:hover{
-
 	cursor:pointer;
-}
-.def .long-description,.def .firstform {
-	display: none;
 }
 .def .description {
 	min-height:0;
@@ -292,7 +287,7 @@ h2 {
 	padding: 20px 40px 20px 20px;
 }
 .top-ico {
-	position: absolute;
+    position: absolute;
     width: 100%;
     float: right;
     text-align: right;
@@ -300,7 +295,7 @@ h2 {
     right: 10px;
 }
 .top-ico img { 
-	margin: 10px;
+    margin: 10px;
 }
 #but-filter, #but-view, #but-info {
     cursor:pointer;
