@@ -1,3 +1,4 @@
+/* style */
 * {
     font-family: Arial, Helvetica, sans-serif;
 }
@@ -374,16 +375,15 @@ margin-left:20px;
     margin-right: -20px !important;
     cursor: pointer;
 }
-/*form*/
-form, .pro {
+/* forms */
+form {
     text-align: left;
     outline: 0 !important;
 }
-.pro input, input {	
+input {    
     border: 1px solid #f1efef; /* default-color */
 }
-.pro input[type=text], input[type=text] {
-    border-radius: 15px;
+input[type=text] {
     width: auto;
     min-width:300px;
     height: 32px;
@@ -391,7 +391,7 @@ form, .pro {
     padding-left:10px;
     padding-right:10px;
 }
-.pro textarea, textarea {
+textarea {
     border-radius: 15px;
     width: auto;
     min-width:300px;
@@ -401,25 +401,25 @@ form, .pro {
     border: 1px solid #f1efef; /* default-color */
     padding: 10px;
 }
-.pro input[type=image], input[type=image] {
+input[type=image] {
     width: auto;
     border: 0;
     cursor: pointer;
 }
-.pro input[type=file], input[type=file] {
+input[type=file] {
     margin: 10px;
     font-size: 1em !important;
     padding: 5px;
     border: 0;
 }
-.pro input[type=date], input[type=date] {
+input[type=date] {
     margin: 10px;
     font-size: 1em !important;
     padding: 5px;
     border: 0;
     border: 1px solid #f1efef;
 }
-.pro input[type=submit], input[type=submit], .pro input[type=reset], input[type=reset], input[type=reset], .pro input[type=button], input[type=button], .pro button, button {
+input[type=submit], input[type=reset], input[type=button], button {
     border-radius: 8px;
     background-color: #e0eaee; /* default-color */
     margin: 10px;
@@ -431,16 +431,16 @@ form, .pro {
     color: #283c44; /* default-color */
     cursor: pointer;
 }
-.pro button::-moz-focus-inner, button::-moz-focus-inner {
+button::-moz-focus-inner {
     border: 0;
 }
-.pro input[type=checkbox], input[type=checkbox] {
+input[type=checkbox] {
     height: 18px;
     width: 18px;
     margin: 10px;
-    display: none;
+    display: block;
 }
-.pro label:before, label:before {
+label:before {
     margin: 10px;
     content: " ";
     display: inline-block;
@@ -457,15 +457,13 @@ form, .pro {
     vertical-align: middle;
     border-radius: 2px;
 }
-.pro input:checked + label:before,  input:checked + label:before {
-    content: url(/wfe/images/ui2/ico/checked.png);
-}
+
 /* disabled */
-.pro input:disabled + label:before,  input:disabled + label:before {
+input:disabled + label:before {
     background: #f1efef; /* default-color */
-    color: #fff;
+    color: #999;
 }
-.pro input[type=radio], input[type=radio] {
+input[type=radio] {
     height: 18px;
     width: 18px;
     margin: 10px;
@@ -479,40 +477,9 @@ form, .pro {
     padding: 10px;
     text-decoration: none;
     font-weight: 400;
-	cursor: pointer;
-}
-.task input[type=checkbox] {
-    height: 18px;
-    width: 18px;
-    margin: 0;
-    display: block;
-}
-.filter {
-    width: 100%; 
-    height:90px; 
-    display: none;
+    cursor: pointer;
 }
 
-.vert-mid {
-    display: table-cell;
-    vertical-align:middle;
-}
-.filter input[type=text] {
-   	width:150px;
-	min-width:50px;
-	height:28px;
-	line-height:20px;
-	padding-left:3px;
-	padding-right:3px;
-	margin:2px;
-}
-.filter input[type=date] {
-	width:100px;
-	min-width:50px;
-    margin: 0; 
-    font-size: 0.8rem !important;
-	margin: 3px;
-}
 .chb {
     text-align:center;
 }
@@ -520,126 +487,116 @@ form, .pro {
     min-width:20px;
     max-width:40px;
 }
-.num input[type=text] {
+.num input[type=text], .num .filter input[type=text] {
     width:70px;
-	padding-left:3px;
-	padding-right:3px;
+    padding-left:3px;
+    padding-right:3px;
 }
-
-.filter-ico {
-    height: 12px;
-    width: 12px;
-    display:none;
-	margin-right:7px;
-}
-.filter select {
-    margin: 3px;
-}
-/*form-task*/
+/* forms-task */
 .task {
     text-align: left;
     outline: 0 !important;
 }
 .process-var {
     border-spacing: 0 !important;
-	border: 0 !important;
+    border: 0 !important;
 }
 .process-var tr, .process-var tr:hover{
     background-color:#ffffff !important;
 }
-.task input {	
+.task input {    
     border: 1px solid #6a93a5; /* default-color */
 }
 .task input[type=text] {
     width: auto;
-	min-width:300px;
+    min-width:300px;
     height: 24px;
     margin: 10px;
-	padding-left:10px;
-	padding-right:10px;
-	border-radius: unset;
-	background:url(img/input-shadow.jpg) top repeat-x;
+    padding-left:10px;
+    padding-right:10px;
+    border-radius: unset;
+    background:url(img/input-shadow.jpg) top repeat-x;
 }
 .task input:disabled {
    background: linear-gradient(0, #eef5f7, #d6ecf2) !important;/* default-color */
 }
 .task textarea {
-	border-radius: unset;
+    border-radius: unset;
     width: auto;
-	min-width:300px;
+    min-width:300px;
     height: auto;
     min-height: 100px;
     margin: 10px;
-	border: 1px solid #6a93a5;/* default-color */
-	padding: 10px;
-	background: #ffffff url(img/input-shadow.jpg) top repeat-x;
+    border: 1px solid #6a93a5;/* default-color */
+    padding: 10px;
+    background: #ffffff url(img/input-shadow.jpg) top repeat-x;
 }
 .task input[type=image] {
     width: auto;
     border: 0;
-	cursor: pointer;
+    cursor: pointer;
 }
 .task .file-upload input[type="file"]{
- display: none;/* скрываем input file */
+    display: none;/* скрываем input file */
  }
  /* задаем стили кнопки выбора файла*/
- .task .file-upload,  .task .uploaded-file {
- position: relative;
- overflow: hidden;
- width: 200px;
- height: 32px;
- background: #e0eaee;
- border-radius: 10px;
- text-align: center;
- float:left;
- line-height: 32px;
+.task .file-upload,  .task .uploaded-file {
+    position: relative;
+    overflow: hidden;
+    width: 200px;
+    height: 32px;
+    background: #e0eaee;
+    border-radius: 10px;
+    text-align: center;
+    float:left;
+    line-height: 32px;
  }
  .task .file-upload:hover {
- background: #bfd6de;
- text-align:center;
+    background: #bfd6de;
+    text-align:center;
  }
  /* Растягиваем label на всю область блока .file-upload */
  .task .file-upload label {
- display: block;
- position: absolute;
- top: 0;
- left: 0;
- width: 100%;
- height: 100%;
- cursor: pointer;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
  }
  /* стиль текста на кнопке*/
  .task .file-upload span {
- line-height: 32px;
- font-weight:bold;
+    line-height: 32px;
+    font-weight:bold;
  }
 .task .file-upload label:before {
-background: unset;
-border:unset;
-    content: url(/wfe/images/ui2/ico/input-file.png) !important;
-	float:left;
-	margin-top: 0px;
+    background: unset;
+    border:unset;
+    content: url(img/ico/input-file.png) !important;
+    float:left;
+    margin-top: 0px;
 }
 #filename {
     float:left;
 }
 .var-del {
-height: 32px;
-width: 32px;
-border-radius: 10px;
- background: #e0eaee;
- float:left;
- margin: 0 0 0 10px;
- text-align:center;
- line-height: 32px;
+    height: 32px;
+    width: 32px;
+    border-radius: 10px;
+    background: #e0eaee;
+    float:left;
+    margin: 0 0 0 10px;
+    text-align:center;
+    line-height: 32px;
 }
 .task input[type=date] {
     margin: 10px; !important;
     font-size: 1em !important;
     padding: 0; !important;
-	border: 1px solid #6a93a5; !important;
-	height: 24px; !important;
-	background:url(img/input-shadow.jpg) top repeat-x;	!important;
+    border: 1px solid #6a93a5; !important;
+    height: 24px; !important;
+    background:url(img/input-shadow.jpg) top repeat-x;    !important;
 }
 .task input[type=submit], input[type=submit], .task input[type=reset], input[type=reset], input[type=reset], .task input[type=button], input[type=button], .task button, button {
     border-radius: 8px;
@@ -659,8 +616,8 @@ border-radius: 10px;
 .task input[type=checkbox] {
     height: 18px;
     width: 18px;
-    margin: 10px;
-    display: none;
+    margin: 0;
+    display: block;
 }
 .task label:before {
     margin: 10px;
@@ -680,7 +637,7 @@ border-radius: 10px;
     border-radius: 2px;
 }
 .task input:checked + label:before {
-    content: url(/wfe/images/ui2/ico/checked.png);
+    content: url(img/ico/checked.png);
 }
 /* disabled */
 .task input:disabled + label:before {
@@ -701,7 +658,7 @@ border-radius: 10px;
     padding: 10px;
     text-decoration: none;
     font-weight: 400;
-	cursor: pointer;
+    cursor: pointer;
 }
 .task input[type=checkbox] {
     height: 18px;
@@ -709,26 +666,172 @@ border-radius: 10px;
     margin: 0;
     display: block;
 }
-/*color-default*/
+/* forms-ti */
+.top-ico form {
+    text-align: left;
+    outline: 0 !important;
+}
+.top-ico input {    
+    border: 1px solid #f1efef; /* default-color */
+}
+.top-ico input[type=text] {
+    border-radius: 15px;
+    width: auto;
+    min-width:300px;
+    height: 32px;
+    margin: 10px;
+    padding-left:10px;
+    padding-right:10px;
+}
+.top-ico textarea {
+    border-radius: 15px;
+    width: auto;
+    min-width:300px;
+    height: auto;
+    min-height: 200px;
+    margin: 10px;
+    border: 1px solid #f1efef; /* default-color */
+    padding: 10px;
+}
+.top-ico input[type=image] {
+    width: auto;
+    border: 0;
+    cursor: pointer;
+}
+.top-ico input[type=file] {
+    margin: 10px;
+    font-size: 1em !important;
+    padding: 5px;
+    border: 0;
+}
+.top-ico input[type=date] {
+    margin: 10px;
+    font-size: 1em !important;
+    padding: 5px;
+    border: 0;
+    border: 1px solid #f1efef;
+}
+.top-ico input[type=submit], .top-ico input[type=reset],.top-ico input[type=button],.top-ico button {
+    border-radius: 8px;
+    background-color: #e0eaee; /* default-color */
+    margin: 10px;
+    padding: 10px 28px;
+    font-size: 1em !important;
+    color:#283c44; /* default-color */
+    font-weight: 400;
+    border: 0;
+    color: #283c44; /* default-color */
+    cursor: pointer;
+}
+.top-ico button::-moz-focus-inner,.top-ico button::-moz-focus-inner {
+    border: 0;
+}
+.top-ico input[type=checkbox] {
+    height: 18px;
+    width: 18px;
+    margin: 10px;
+    display: none;
+}
+.top-ico label:before, label:before {
+    margin: 10px;
+    content: " ";
+    display: inline-block;
+    font: 12px/13px Arial;
+    margin-right: 15px;
+    position: relative;
+    text-align: center;
+    text-indent: 0px;
+    width: 15px;
+    height: 15px;
+    background: #FFF;
+    border: 1px solid #bbbbbb; 
+    border-image: initial;
+    vertical-align: middle;
+    border-radius: 2px;
+}
+.top-ico input:checked + label:before {
+    content: url(img/ico/checked.png);
+}
+/* disabled */
+.top-ico input:disabled + label:before {
+    background: #f1efef; /* default-color */
+    color: #fff;
+}
+.top-ico input[type=radio] {
+    height: 18px;
+    width: 18px;
+    margin: 10px;
+}
+.top-ico .button {
+    background-color: #e0eaee;/* default-color */
+    color: #283c44;/* default-color */
+    border-radius: 8px;
+    box-sizing: border-box;
+    margin: 10px;
+    padding: 10px;
+    text-decoration: none;
+    font-weight: 400;
+    cursor: pointer;
+}
+
+.filter {
+    width: 100%; 
+    height:90px; 
+    display: none;
+}
+
+.vert-mid {
+    display: table-cell;
+    vertical-align:middle;
+}
+.filter input[type=text] {
+    background-color: #fff;
+    border-radius: 15px;
+       width:150px;
+    min-width:50px;
+    height:28px;
+    line-height:20px;
+    padding-left:3px;
+    padding-right:3px;
+    margin:2px;
+}
+.filter input[type=date] {
+    background-color: #fff;
+    width:100px;
+    min-width:50px;
+    margin: 0; 
+    font-size: 0.8rem !important;
+    margin: 3px;
+}
+.filter-ico {
+    height: 12px;
+    width: 12px;
+    display:none;
+    margin-right:7px;
+}
+.filter select {
+    margin: 3px;
+}
+/* color-default */
 * {
     color: #233c45;
 }
 body {
-	background-color:#99b5be;	
-	background: linear-gradient(90deg, #bfd6de, #99b5be);
-	margin-bottom: 1px;
+    background-color:#99b5be;    
+    background: linear-gradient(90deg, #bfd6de, #99b5be);
+    margin-bottom: 1px;
 }
 .content {
-	background: linear-gradient(90deg, #bfd6de, #99b5be);
+    background: linear-gradient(90deg, #bfd6de, #99b5be);
 }
 .leftmenuback {
-	background-color:#6a93a5;
+    background-color:#6a93a5;
 }
 .topbar{
-	background-color:#e9e9e9;
+    background-color:#e9e9e9;
 }
 .work tr:hover {
-	background-color:#e0eaee;
+    background-color:#e0eaee;
 }
 .dark1, h1, h2, h3, h4, h5, h6 {
     color:#283c44 !important;/* Заголовки, частично цвет на кнопках */
@@ -771,6 +874,6 @@ a {
     border-right: 1px solid #99b5be;
 }
 .active-light1 { 
-	background:url(/wfe/images/ui2/ico/selected-light1.png); background-repeat:no-repeat;
-	background-position:right;
+    background:url(img/ico/selected-light1.png); background-repeat:no-repeat;
+    background-position:right;
 }
