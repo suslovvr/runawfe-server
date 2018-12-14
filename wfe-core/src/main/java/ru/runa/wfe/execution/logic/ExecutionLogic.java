@@ -369,7 +369,7 @@ public class ExecutionLogic extends WfCommonLogic {
     public WfProcess getProcess(User user, Long id) throws ProcessDoesNotExistException {
         Process process = processDao.getNotNull(id);
         permissionDao.checkAllowed(user, Permission.LIST, process);
-        return new WfProcess(process);
+        return new WfProcess(process, getProcessErrors(process));
     }
 
     public WfProcess getParentProcess(User user, Long processId) throws ProcessDoesNotExistException {
@@ -379,7 +379,7 @@ public class ExecutionLogic extends WfCommonLogic {
         }
         Process parentProcess = nodeProcess.getProcess();
         permissionDao.checkAllowed(user, Permission.LIST, parentProcess);  // TODO Should also check permission on subprocess?
-        return new WfProcess(parentProcess);
+        return new WfProcess(parentProcess, getProcessErrors(parentProcess));
     }
 
     public List<WfProcess> getSubprocesses(User user, Long processId, boolean recursive) throws ProcessDoesNotExistException {
@@ -703,6 +703,17 @@ public class ExecutionLogic extends WfCommonLogic {
         List<CurrentProcess> processes = getPersistentObjects(user, batchPresentation, Permission.LIST, PROCESS_EXECUTION_CLASSES, false);
         return toWfProcesses(processes, null);
     }
+    
+    private String getProcessErrors(Process process) {
+        List<String> processErrors = Lists.newArrayList();
+        for (WfToken token : getTokens(process)) {
+            if (token.getExecutionStatus() != ExecutionStatus.FAILED || token.getErrorMessage() == null) {
+                continue;
+            }
+            processErrors.add(token.getErrorMessage());
+        }
+        return String.join(", ", processErrors);
+    }
 
     public List<CurrentToken> findTokensForMessageSelector(Map<String, String> routingData) {
         if (SystemProperties.isProcessExecutionMessagePredefinedSelectorEnabled()) {
@@ -737,7 +748,7 @@ public class ExecutionLogic extends WfCommonLogic {
     private List<WfProcess> toWfProcesses(List<? extends Process> processes, List<String> variableNamesToInclude) {
         List<WfProcess> result = Lists.newArrayListWithExpectedSize(processes.size());
         for (Process process : processes) {
-            WfProcess wfProcess = new WfProcess(process);
+            WfProcess wfProcess = new WfProcess(process, getProcessErrors(process));
             if (!Utils.isNullOrEmpty(variableNamesToInclude)) {
                 try {
                     ParsedProcessDefinition parsedProcessDefinition = getDefinition(process);
