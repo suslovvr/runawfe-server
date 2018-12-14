@@ -30,7 +30,7 @@ h1 {
     padding: 50px 40px;
 }
 h1.level2 {
-   padding-bottom:0;
+    padding-bottom:0;
 }
 h2 {
     margin: 0 40px 30px; 
@@ -41,6 +41,27 @@ h2 {
     display:inline-block;
     float:left;
     height:120px;
+}
+.des-top2 {
+    width:120px;
+    display:block;
+    float:left;
+    height:90px;
+}
+.topbar {
+    position:fixed;
+    top: 0;
+    left: 0;
+    height:50px;
+    border-radius:5px 5px 0 0;
+    width: 100%;
+    min-width: 600px;
+    z-index: 99999;
+}
+.topbarwrap {
+    height:50px;
+    width:100%;
+    background-color:#FFFFFF;
 }
 .leftmenuback {
     position: fixed;
@@ -70,13 +91,12 @@ h2 {
     filter: brightness(30);
 }
 .active { 
-	/*background:url(/wfe/images/ui2/ico/selected.png); background-repeat:no-repeat;
-	background-position:right;*/
+    /*background:url(img/ico/selected.png); background-repeat:no-repeat;
+    background-position:right;*/
 }
 .active img {
-/*	filter: brightness(3) saturate(0) hue-rotate(90deg); */
+/*    filter: brightness(3) saturate(0) hue-rotate(90deg); */
     filter: brightness(30);
-    cursor: auto !important;
     background:none;
 }
 .leftmenuwrap img.sel:hover {
@@ -115,7 +135,7 @@ h2 {
     width: -webkit-fill-available; /* Mozilla-based browsers will ignore this. */ 
     width: fill-available; 
     position:absolute;
-    visibility:hidden;	
+    visibility:hidden;    
     background-color:#ffffff;
     margin:0 20px 0 90px;
     border-radius:15px;
@@ -124,7 +144,7 @@ h2 {
     z-index: 1;
 }
 .two-contentback .work {
-    margin-left:20px;
+margin-left:20px;
 }
 .topmenuwrap {
     height: 50px;
@@ -137,103 +157,103 @@ h2 {
     float:none;
 }
 .topmenuwrap .user {
-	border-radius: 50%;
-	height:100%;
-	width:auto;
-	float: right;
-	margin-left:20px;
-	cursor:pointer;
+    border-radius: 50%;
+    height:100%;
+    width:auto;
+    float: right;
+    margin-left:20px;
+    cursor:pointer;
 }
 .topmenuwrap .tun {
-	margin:15px 30px 15px 5px;
-	cursor:pointer;
-	width:21px; 
-	height:21px;
+    margin:15px 30px 15px 5px;
+    cursor:pointer;
+    width:21px; 
+    height:21px;
 }
 .topmenuwrap span {
-	display: inline-block; 
-	height:50px;
-	line-height: 50px;
-	float:right;
-	font-weight:bolder;
+    display: inline-block; 
+    height:50px;
+    line-height: 50px;
+    float:right;
+    font-weight:bolder;
 }
 
 .work {
-	border:0;
-	border-spacing: 0;
-	padding: 0;
-	margin:0;
+    border:0;
+    border-spacing: 0;
+    padding: 0;
+    margin:0;
 }
 .work h3 {
     margin-top: 0;
 }
 .work .task tr:hover {
-	background-color:#e0eaee;
+    background-color:#e0eaee;
 }
 .work td {
-	min-height:25px;
-	vertical-align:middle;
+    min-height:25px;
+    vertical-align:middle;
 }
 .work .taskform {
     padding: 0 20px 0 40px;
 }
 .work .taskform table {
-	border-spacing: 0;
-	border: 1px solid #f1efef;
+    border-spacing: 0;
+    border: 1px solid #f1efef;
 }
 .work .taskform table td {
     width: 50%;
-	border: 1px solid #f1efef;
+    border: 1px solid #f1efef;
 }
 .work .task {
-	width: 100%;
-	border-spacing: 0;
+    width: 100%;
+    border-spacing: 0;
 }
 .task tr:nth-child(1) td {
-	border-top: 1px solid #f1efef;
-	padding: 0;
-	height: 5px;
+    border-top: 1px solid #f1efef;
+    padding: 0;
+    height: 5px;
 }
 .task tr:nth-child(2) td {
-	vertical-align:middle;
-	padding: 0;
+    vertical-align:middle;
+    padding: 0;
 }
 .task tr:nth-child(3) td {
-	border-bottom: 1px solid #f1efef;
-	padding: 0;
-	height: 5px;
+    border-bottom: 1px solid #f1efef;
+    padding: 0;
+    height: 5px;
 }
 .task tr:nth-child(2) td p {
-	font-size: 0.8rem;
-	font-weight:bold;
-	margin: 10px 5px 10px 10px;
+    font-size: 0.8rem;
+    font-weight:bold;
+    margin: 10px 5px 10px 10px;
 }
 .task tr:last-child td {
-	border-bottom: 1px solid #f1efef;
+    border-bottom: 1px solid #f1efef;
 }
 .task tr td:nth-child(1) {
     width: 40px;
-	border: none;
+    border: none;
 }
 .task tr td:last-child {
     width: 20px;
-	border: none;
+    border: none;
 }
 .task tr .chb {
-	max-width:40px;
-	text-align:center;
+    max-width:40px;
+    text-align:center;
 }
 .task td:nth-child(2) {
-	cursor:pointer;
+    cursor:pointer;
 }
 .task td:nth-child(2):hover {
-	text-decoration:underline;
+    text-decoration:underline;
 }
 .task td {
     padding: 5px;
 }
 .task td:nth-child(5) {
-	text-align:center;
+    text-align:center;
 }
 .task .data {
     min-width:120px;
@@ -241,50 +261,52 @@ h2 {
 }
 .task .num {
     width: 80px;
-	text-align:center;
+    text-align:center;
 }
 .def {
  /*   padding: 0 20px 0 40px;*/
     padding: 0;
 }
 .def ul li,.def ul {
-	padding:10px 0 10px 0;
-	list-style:none;
+    padding:10px 0 10px 0;
+    list-style:none;
 }
 .def ul li {
     padding-left: 40px;
 }
 .def ul li:hover {
-	background-color:#e0eaee;
+    background-color:#e0eaee;
 }
+
 .def ul li span:hover, .underline:hover{
-	cursor:pointer;
+
+    cursor:pointer;
 }
 .def .description {
-	min-height:0;
-	line-height:1rem;
-	max-width:100%;
-	overflow:auto;
-	font-size:0.8rem;
-	padding:0 25px 0 0;
-	color: #666666;
+    min-height:0;
+    line-height:1rem;
+    max-width:100%;
+    overflow:auto;
+    font-size:0.8rem;
+    padding:0 25px 0 0;
+    color: #666666;
 }
 .process-name {
     font-weight:bold;
 }
 .def .description span {
-	color: #aaaaaa;
+    color: #aaaaaa;
 }
 .def .description div {
-	position: absolute;
-	border: solid 1px #f1efef;
-	margin: 5px;
-	padding: 10px;
-	display:none;
+    position: absolute;
+    border: solid 1px #f1efef;
+    margin: 5px;
+    padding: 10px;
+    display:none;
 }
 .act{
-	text-align:right;
-	padding: 20px 40px 20px 20px;
+    text-align:right;
+    padding: 20px 40px 20px 20px;
 }
 .top-ico {
     position: absolute;
@@ -314,11 +336,11 @@ h2 {
     margin-top:50px;
 }
 #info div {
-	width:30%;
-	height: 20px;
-	float:left;
-	border-radius:10px;
-	margin-right:15px;
+    width:30%;
+    height: 20px;
+    float:left;
+    border-radius:10px;
+    margin-right:15px;
 }
 
 .process-info {
@@ -346,6 +368,11 @@ h2 {
 }
 .display-toggle {
     display:block;
+}
+.close-ti { 
+    float: right;
+    margin-right: -20px !important;
+    cursor: pointer;
 }
 /*form*/
 form, .pro {
