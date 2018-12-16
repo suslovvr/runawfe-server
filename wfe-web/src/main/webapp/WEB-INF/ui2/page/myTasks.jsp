@@ -11,13 +11,12 @@
     <div class="one-contentback" onLoad="top-ico.onLoad()">	
         <div class="top-ico" id="top-ico">
         <img src="/wfe/images/ui2/ico/filter.png" title="Фильтры" id="but-filter" /><img src="/wfe/images/ui2/ico/view.png" id="but-view" title="Вид" /><img src="/wfe/images/ui2/ico/info.png" id="but-info" title="Информация" />
-        <div id="view">
+        <div id="view"><img src='/wfe/images/ui2/ico/close.png' class='close-ti' />
 		<h3>Вид</h3><br />
-		<form class="pro">
 		<input type="checkbox" id="checkbox-isp" /><label for="checkbox-isp"> Исполнитель</label><br />
 		<input type="checkbox" id="checkbox-d1"/><label for="checkbox-d1"> Дата запуска процесса</label><br />
-		</form></div>
-		<div id="info">
+		</div>
+		<div id="info"><img src='/wfe/images/ui2/ico/close.png' class='close-ti' />
 		<h3>Информация</h3><br />
 	    <p><div class="task1"></div>Установленный срок задачи подходит к концу<br clear="all" /></p>
 		<p><div class="task2"></div>Задача не выполнена в установленный срок<br clear="all" /></p>
