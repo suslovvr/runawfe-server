@@ -11,7 +11,7 @@
         <div class="two-contentback" id="two-contentback">
 	    <form>
 		<div class="input-buttons">
-		    <input type="submit" value="Запустить процесс" />
+					<input type="submit" value="Запустить процесс" />
 		</div>
 		<h1>Оформление договора</h1>
 		<div class="work">

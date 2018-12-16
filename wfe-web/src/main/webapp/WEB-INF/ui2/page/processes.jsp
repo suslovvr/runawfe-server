@@ -34,7 +34,7 @@
                 <td><p>Процесс</p><div class="filter"><input type="text" value="Содержит" /></div></td>
 		<td class="data"><p>Запущен</p><div class="filter"><input type="date" /><br /><input type="date" /></div></td>
 		<td class="data"><p>Окончен</p><div class="filter"><input type="date" /><br /><input type="date" /></div></td>
-             	<td class="num"><p>№</p><div class="filter"><input type="text" value="от"/><br /><input type="text" value="до" /></div></td>
+          	<td class="num"><p>№</p><div class="filter"><input type="text" value="от"/><br /><input type="text" value="до" /></div></td>
 		<td><p>Статус</p><div class="filter"><select><option>Активен</option><option>Завершён</option></select></div></td>
 		<td><div class="filter"></div></td>
             </tr>
