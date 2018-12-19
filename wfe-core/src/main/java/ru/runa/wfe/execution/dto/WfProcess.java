@@ -39,6 +39,7 @@ public class WfProcess extends SecuredObjectBase {
     // map is not usable in web services
     private final List<WfVariable> variables = Lists.newArrayList();
     private ExecutionStatus executionStatus;
+    private String processErrors = "";
 
     public WfProcess() {
     }
@@ -53,6 +54,22 @@ public class WfProcess extends SecuredObjectBase {
         hierarchyIds = process.getHierarchyIds();
         executionStatus = process.getExecutionStatus();
         archive = process.isArchive();
+    }
+    
+    public WfProcess (Process process, String processErrors) {
+        id = process.getId();
+        name = process.getDefinitionVersion().getDefinition().getName();
+        definitionId = process.getDefinitionVersion().getId();
+        version = process.getDefinitionVersion().getVersion().intValue();
+        startDate = process.getStartDate();
+        endDate = process.getEndDate();
+        hierarchyIds = process.getHierarchyIds();
+        executionStatus = process.getExecutionStatus();
+        this.processErrors = processErrors;
+    }
+    
+    public String getProcessErrors() {
+        return processErrors;
     }
 
     @Override

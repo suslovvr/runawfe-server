@@ -85,6 +85,10 @@ public class CurrentProcess extends Process<CurrentToken> {
         this.endDate = endDate;
     }
 
+    public void setClientData(Long clientData) {
+        this.clientData = clientData;
+    }
+
     @Override
     public ProcessDefinitionVersion getDefinitionVersion() {
         return definitionVersion;
