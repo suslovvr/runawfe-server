@@ -8,8 +8,9 @@ wfe.myTasks = new function() {
                 el: "#spa-body",
                 data: data
             });
-            var c_height = $(window).height()-180;
-			$(".one-contentback").css('minHeight', c_height);
+            var c_height = $(window).height()-66-80;
+	    $(".one-contentback").css('minHeight', c_height);
+	    $(".two-contentback").css('minHeight', c_height);
             $(".task tr:nth-child(2) td p").append("<img src='img/ico/top-tun.png' class='filter-ico' />");
             $("#but-filter").click(function() {
                 $("#view").hide();
