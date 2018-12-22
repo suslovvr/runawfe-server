@@ -15,7 +15,7 @@
 	            <img src="/wfe/images/ui2/ico/top-tun.png" alt="Настройки"  title="Настройки" class="tun"/><span>{{currentUser.name}}</span>
             </div>            
             <tiles:insert attribute="content" ignore="true"/>
-        </div><div class="footer">Copyright, Sybernix, 2018</div>
+        </div><div class="footer">Copyright, Cybernix, 2018</div>
         <div class="leftmenuback"><div class="leftmenuwrap">
             <div class="<%= "myTasks".equals(mm) ? "active" : "" %>">
                 <img src="/wfe/images/ui2/ico/mainMenu/myTasks.png" alt="Мои задачи" title="Мои задачи" onclick="wfe.spa.gotoUrl('/myTasks')"/>
