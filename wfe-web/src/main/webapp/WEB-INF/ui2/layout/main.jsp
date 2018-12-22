@@ -10,10 +10,10 @@
     <body data-jsController="<%= jsController %>">
         <div class="content">
             <div class="topmenuwrap">
+		    <img src="/wfe/images/ui2/logo.png" class="logo" />
 	            <img src="/wfe/images/ui2/ico/user.png" class="user" />
 	            <img src="/wfe/images/ui2/ico/top-tun.png" alt="Настройки"  title="Настройки" class="tun"/><span>{{currentUser.name}}</span>
-            </div>
-            <img src="/wfe/images/ui2/logo.png" class="logo" />
+            </div>            
             <tiles:insert attribute="content" ignore="true"/>
         </div><div class="footer">Copyright, Sybernix, 2018</div>
         <div class="leftmenuback"><div class="leftmenuwrap">
